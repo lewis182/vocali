@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocali — Vocal Training (content prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#E7E0CF; --surface:#F1EBDB; --surface2:#EDE6D4;
+  --ink:#1E1B17; --teal:#1C6B85; --teal-soft:#8FBAC8;
+  --orange:#C05A24; --muted:#8B8272; --line:#D6CDB8;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--orange);text-decoration:none}
+.overline{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:264px minmax(0,1fr) 320px;min-height:100vh}
+.topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px;border-bottom:1px solid var(--line);background:var(--surface)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .mark{width:42px;height:42px;background:var(--ink);border-radius:8px;display:grid;place-items:center}
+.brand .mark svg{width:30px;height:30px}
+.brand .name{font-family:var(--serif);font-weight:700;font-size:27px;letter-spacing:.10em}
+.topbar .tag{background:var(--teal);color:#fff;font-weight:700;letter-spacing:.12em;font-size:11.5px;padding:7px 13px;border-radius:5px}
+
+/* ---------- left nav ---------- */
+.nav{border-right:1px solid var(--line);padding:22px 16px;background:var(--surface2);position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
+.nav h4{margin:22px 8px 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.nav a.item{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:6px;color:var(--ink);font-size:14.5px;cursor:pointer}
+.nav a.item:hover{background:var(--surface)}
+.nav a.item.active{background:var(--ink);color:var(--surface)}
+.nav a.item.active .n{color:var(--surface)}
+.nav a.item .n{color:var(--muted);font-size:12px;min-width:20px;font-variant-numeric:tabular-nums}
+.nav a.item.core .n{color:var(--teal);font-weight:700}
+.nav a.item.active.core .n{color:var(--teal-soft)}
+
+/* ---------- main ---------- */
+main{padding:34px 46px 80px;max-width:820px}
+.crumb{margin-bottom:6px}
+h1.title{font-family:var(--serif);font-weight:700;font-size:44px;line-height:1.05;margin:6px 0 10px}
+.lede{font-size:19px;color:#4a453d;max-width:64ch;margin:0 0 26px}
+.rule{height:1px;background:var(--line);border:0;margin:30px 0}
+
+/* diagram */
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin:8px 0 6px}
+.diagram .bars{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:16px 0 6px}
+.diagram .bar{height:16px;background:var(--teal);border-radius:3px}
+.diagram .bar.head{background:var(--teal-soft)}
+.diagram .zone{text-align:center;color:var(--orange);font-weight:600;font-size:13px;margin-top:4px}
+.diagram .dash{border-top:2px dashed var(--orange);width:150px;margin:8px auto 2px}
+.diagram .caption{font-size:12.5px;color:var(--muted);margin-top:14px}
+
+/* section list on area page */
+.sections{margin:6px 0}
+.sections .row{display:flex;align-items:center;gap:14px;padding:15px 8px;border-bottom:1px solid var(--line);cursor:pointer}
+.sections .row:hover{background:var(--surface)}
+.sections .row .num{font-family:var(--serif);color:var(--teal);font-weight:600;font-size:18px;min-width:34px}
+.sections .row .rt{flex:1}
+.sections .row .rt .st{font-weight:600;font-size:16.5px}
+.sections .row .rt .sd{color:var(--muted);font-size:13.5px}
+.sections .row .lvl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:3px 8px;border-radius:20px}
+.sections .row .chev{color:var(--muted)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:#fff;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px;border:0;border-radius:6px;
+  padding:15px 22px;cursor:pointer;width:100%;margin-top:20px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);text-transform:none;letter-spacing:0;font-weight:600;width:auto}
+.back{display:inline-flex;gap:6px;align-items:center;color:var(--muted);font-size:13px;cursor:pointer;margin-bottom:14px}
+
+/* section card */
+.tag{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:var(--teal);padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.block{margin:24px 0}
+.block > .overline{display:block;margin-bottom:8px}
+.block p{margin:0 0 12px}
+.callout{background:var(--surface);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:14px 18px;margin:14px 0}
+.callout.fault{border-left-color:var(--orange)}
+.callout .overline{margin-bottom:6px;display:block}
+ul.cues{margin:8px 0 0;padding-left:0;list-style:none}
+ul.cues li{padding:6px 0 6px 22px;position:relative;border-bottom:1px dotted var(--line)}
+ul.cues li:before{content:'';position:absolute;left:4px;top:14px;width:6px;height:6px;background:var(--teal);border-radius:50%}
+ul.cues.fault li:before{background:var(--orange)}
+
+/* exercise */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+.ex .exhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.ex .exhead .exname{font-weight:700;font-size:16.5px}
+.ex .meta{font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ex ol{margin:10px 0 0;padding-left:20px}
+.ex ol li{margin:5px 0}
+.ex .ref{margin-top:12px;font-size:13px;color:var(--teal);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.ex .ref:hover{text-decoration:underline}
+
+/* video */
+.video{margin:10px 0}
+.vframe{position:relative;aspect-ratio:16/9;background:#111;border-radius:10px;overflow:hidden}
+.vframe iframe{width:100%;height:100%;border:0}
+.vfallback{display:none;position:absolute;inset:0;background:var(--surface);color:var(--muted);
+  align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px;border:1px solid var(--line);border-radius:10px}
+.video.unavailable .vframe iframe{display:none}
+.video.unavailable .vfallback{display:flex}
+.vmeta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px}
+.vmeta .toggle{color:var(--muted);cursor:pointer;font-size:12px}
+
+/* home */
+.warmups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 26px}
+.warmups .w{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:26px 10px;text-align:center;cursor:pointer}
+.warmups .w:hover{border-color:var(--teal)}
+.warmups .w .big{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1}
+.warmups .w .u{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.feature{background:var(--teal);color:#fff;border-radius:10px;padding:22px 26px;margin:8px 0 26px}
+.feature .overline{color:#bfe0ea}
+.feature .ft{font-family:var(--serif);font-weight:600;font-size:28px;margin-top:6px}
+.progress .prow{margin:14px 0}
+.progress .plabels{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.progress .track{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+.progress .fill{height:100%}
+.resume{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-top:24px;cursor:pointer;background:var(--surface)}
+.resume:hover{border-color:var(--teal)}
+
+/* placeholder */
+.placeholder{border:1px dashed var(--line);border-radius:10px;padding:30px;color:var(--muted);text-align:center;margin-top:20px}
+
+/* area cards + plan on home */
+.sublede{font-size:14px;color:var(--muted);margin:0 0 14px}
+.areagrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:8px}
+.acard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;cursor:pointer;display:flex;gap:14px;align-items:flex-start}
+.acard:hover{border-color:var(--teal);transform:translateY(-1px)}
+.acard .an{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--muted);min-width:38px;line-height:1}
+.acard.core .an{color:var(--teal)}
+.acard .at{font-weight:600;font-size:15.5px;line-height:1.2}
+.acard .ag{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.acard .secs{font-size:12px;color:var(--muted);margin-top:6px}
+.planstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+.pw{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:11px 12px;cursor:pointer}
+.pw:hover{border-color:var(--teal)}
+.pw.core{background:#e6eef1;border-color:var(--teal-soft)}
+.pw.now{outline:2px solid var(--orange);outline-offset:-2px}
+.pw .pwn{font-family:var(--serif);font-weight:700;font-size:15px}
+.pw .pwf{font-size:12px;color:#5a544a;line-height:1.25;margin-top:2px}
+.planband{font-size:12px;color:var(--muted);margin-top:10px}
+.planband b{color:var(--teal)}
+/* full plan view */
+.week{display:flex;gap:16px;padding:16px 8px;border-bottom:1px solid var(--line);cursor:pointer}
+.week:hover{background:var(--surface)}
+.week.core{background:#eaf1f3}
+.week .wn{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--teal);min-width:64px}
+.week .wf{font-weight:600}
+.week .wg{color:var(--muted);font-size:13.5px}
+.block ol.prod{padding-left:20px;margin:10px 0 0}
+.block ol.prod li{margin:7px 0}
+.diagram svg{display:block;margin:10px 0 4px}
+.gl{border-bottom:1px dotted var(--teal);cursor:help}
+.ex .hear{margin-top:8px;margin-left:14px;font-size:13px;color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.ex .hear:hover{border-color:var(--teal)}
+.ex .exfoot{display:flex;flex-wrap:wrap;align-items:center;margin-top:6px}
+.gloss .grow{padding:14px 8px;border-bottom:1px solid var(--line)}
+.gloss .gt{font-weight:700;font-size:16px}
+.gloss .gd{color:#4a453d;font-size:14.5px;margin-top:3px}
+
+/* ---------- right rail ---------- */
+.rail{border-left:1px solid var(--line);background:var(--surface2);padding:24px 20px;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 16px;margin-bottom:18px}
+.tool h5{margin:0 0 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tool .noterow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tool .note{border:1px solid var(--line);background:var(--ground);border-radius:6px;padding:6px 9px;font-size:13px;cursor:pointer;font-variant-numeric:tabular-nums}
+.tool .note.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tool .ctl{display:flex;align-items:center;gap:10px}
+.tool button.play{background:var(--ink);color:var(--surface);border:0;border-radius:6px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.tool button.play.active{background:var(--orange)}
+.tool .bpm{display:flex;align-items:center;gap:8px;margin-top:2px}
+.tool .bpm input{flex:1}
+.tool .bpmval{font-family:var(--serif);font-weight:600;font-size:22px;min-width:42px;text-align:right;font-variant-numeric:tabular-nums}
+.tool textarea{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--ground);padding:8px;font-family:inherit;font-size:13px;resize:vertical;min-height:52px}
+.tool .logbtn{margin-top:10px;width:100%;background:var(--orange);color:#fff;border:0;border-radius:6px;padding:10px;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.tinynote{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.4}
+
+/* responsive */
+@media(max-width:1180px){.app{grid-template-columns:230px minmax(0,1fr)}.rail{display:none}}
+@media(max-width:820px){.app{grid-template-columns:1fr}.nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}main{padding:24px 20px 60px}}
+.demoline{grid-column:1/-1;background:#1E1B17;color:#E7E0CF;font-size:12px;text-align:center;padding:7px 12px}
+.demoline b{color:var(--orange)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="demoline">Working content prototype · desktop / iPad first · the pitch-drone &amp; metronome on the right <b>actually play</b> · click sections and areas to navigate</div>
+  <header class="topbar">
+    <div class="brand"><div class="mark">
+      <svg viewBox="0 0 40 40" fill="none" stroke="#F1EBDB" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21 C9 11 15 5 22 5 C28 5 32 9 32 14 L35 15 C36 15.3 36 16.7 35 17 L32 18 C31.5 20 30.3 21.2 28 21.8"/>
+        <path d="M28 26 C27 28.6 24.5 30 21 30 L16 30 L16 35"/>
+      </svg></div><div class="name">Vocali</div></div>
+    <div class="tag">VOCAL TRAINING</div>
+  </header>
+
+  <nav class="nav" id="nav"></nav>
+  <main id="main"></main>
+
+  <aside class="rail">
+    <div class="tool">
+      <h5>Reference pitch · drone</h5>
+      <div class="noterow" id="notes"></div>
+      <div class="ctl"><button class="play" id="droneBtn">▶ Play drone</button><span class="tinynote" id="droneNow" style="margin:0">C3</span></div>
+    </div>
+    <div class="tool">
+      <h5>Metronome</h5>
+      <div class="ctl"><button class="play" id="metBtn">▶ Start</button><span class="bpmval" id="bpmVal">72</span></div>
+      <div class="bpm"><input type="range" id="bpm" min="40" max="200" value="72"></div>
+    </div>
+    <div class="tool">
+      <h5>Log this practice</h5>
+      <textarea id="lognote" placeholder="What did you work on? One specific fix…"></textarea>
+      <button class="logbtn" id="logbtn">＋ Log practice</button>
+      <div class="tinynote" id="logmsg"></div>
+    </div>
+    <div class="tinynote">Tools live in one place with the lesson — no leaving the app for a starting note or a click track.</div>
+  </aside>
+</div>
+
+<script>
+/* ---------------- content data ---------------- */
+const AREAS = [
+  {n:'01',id:'foundations',title:'Foundations & Vocal Health',group:'Foundation'},
+  {n:'02',id:'breath',title:'Breath & Support',group:'Foundation'},
+  {n:'03',id:'onset',title:'Onset & Phonation',group:'Foundation'},
+  {n:'04',id:'registration',title:'Registration',group:'Technical core',core:true,
+    lede:'The blend of chest and head function that lets you sing across your full range without a break. This is the technical heart of the instrument — get it working and power, ease and range all follow.',
+    intro:'Registration is about how the vocal folds change shape as you move through your range, and how you manage the transition. Low down, the folds are short and thick and vibrate along their full mass — that is <em>chest voice</em>, strong and speech-like. High up they stretch long and thin — <em>head voice</em>, lighter and cooler. Between them sits the <strong>passaggio</strong>, the zone where coordination has to shift and where most cracks, flips and strain happen. The <strong>mix</strong> is the learned coordination that blends the two so the change is inaudible. Work these five sections in order: understand chest and head as endpoints, learn to negotiate the passaggio, build the mix, then smooth the whole range into one connected instrument.',
+    diagram:true,
+    sections:[
+      {num:'4.1',id:'chest',title:'Chest voice',level:'Core',
+        desc:`Your lower, speech-like register — strong and grounded.`,
+        explain:`Chest voice is your lower, speech-like register and the foundation of power and warmth. The vocal folds are short and thick and vibrate through their full depth, giving a rich tone with strong low harmonics. In tenor/baritone territory it runs from your lowest notes up to around the first passaggio (~B3–C4). Used well it is strong and effortless; forced, it is the fastest route to strain.`,
+        how:[
+          `The <strong>thyroarytenoid (TA)</strong> — the muscle forming the body of each fold — is dominant. It contracts to shorten and thicken the folds, so a large, deep portion of tissue vibrates and the closed phase of each cycle is long. That thickness is what gives chest its density, its loud low harmonics and its speech-like body.`,
+          `Because so much mass is in vibration, chest voice naturally resists being carried high: as pitch rises the folds must thin, and if the TA refuses to yield the sound strains or flips. Chest is therefore powerful but has a sensible ceiling — respect it and build the mix (4.4) above it rather than dragging chest upward.`,
+          `Practically, chest voice is your speaking voice put onto sung pitch. If your speech is healthy and resonant, chest already has the ingredients; the work is keeping it easy and connected rather than pushed.`
+        ],
+        feel:`A spoken quality with clear sympathetic buzz in the sternum and upper chest. It should feel like an easy, resonant speaking voice on pitch — present but effortless, never a shout.`,
+        cues:[`Speak the vowel on pitch first, then sustain it — keep the spoken feel`,`Aim for "resonant", not "loud" — let volume be a by-product of clean fold closure`,`Keep the jaw released and the vowel open and comfortable`,`Keep the breath moving steadily — support, do not press`],
+        faults:[`Pushing or pressing for volume — builds a hard ceiling at the passaggio and tires the voice fast`,`Dragging heavy chest up past its comfortable limit instead of releasing into mix`,`Breathiness from incomplete closure — a weak, airy, unfocused tone`],
+        fix:`If it feels tight, drop the volume by half and let the vowel widen — the power returns once the squeeze goes. If it sounds breathy or weak, start the note with a gentle "g" (as in "go") to bring the folds together, then sustain.`,
+        produce:[
+          `<strong>Speak, then sing.</strong> Say "one, two, three" in a comfortable, resonant speaking voice and notice the natural pitch and the chest buzz.`,
+          `<strong>Put it on a note.</strong> Carry that same voice onto an easy low-middle pitch (tenor/baritone: around A2–D3), keeping the spoken ease.`,
+          `<strong>Add a clean onset.</strong> Open to "gah" or "guh" — the "g" gives firm closure, the open vowel keeps it free.`,
+          `<strong>Move in small steps.</strong> Sing a short 1-3-5-3-1 on "gee" or "gah", up a semitone at a time, only while it stays easy and spoken.`,
+          `<strong>Respect the ceiling.</strong> Near your first passaggio (~B3–C4) do not push to keep it heavy — that is the signal to start blending (4.4), not to force chest higher.`
+        ],
+        check:[
+          `It sounds and feels like a strong speaking voice on pitch, not a shout.`,
+          `You can hold a note steadily with a clear, focused (non-breathy) tone.`,
+          `You feel buzz in the chest but no tightness in the throat.`,
+          `You can get louder and softer without the tone cracking or pressing.`,
+          `It stays comfortable — you stop before the note wants to strain.`
+        ],
+        troubleshoot:[
+          `<strong>Tight, pressed, tiring quickly</strong> → too much effort/volume. Halve the volume, release the jaw, open the vowel.`,
+          `<strong>Airy, weak, unfocused</strong> → incomplete closure. Add a firm "g"/"b" onset; think "speak", not "sigh".`,
+          `<strong>Cracks or flips going higher</strong> → you have hit the chest ceiling. Stop dragging chest up; move to 4.4 mix.`,
+          `<strong>Wobbles or spreads when louder</strong> → unsteady breath. Return to Area 2 support and keep the airflow even.`
+        ],
+        myths:[
+          `"Chest voice comes from the chest." — The sound is made at the folds; the chest only resonates sympathetically. The name is a sensation, not a source.`,
+          `"Louder chest is better chest." — Past a point, more push only adds strain and lowers your ceiling. Easy, resonant chest is the goal.`
+        ],
+        diagramSVG:`<svg viewBox="0 0 640 200" width="100%" font-family="Inter,sans-serif" role="img" aria-label="Coronal schematic of short thick chest-voice folds">
+  <text x="320" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B17">Coronal view · chest — short, thick folds</text>
+  <line x1="70" y1="160" x2="570" y2="160" stroke="#D6CDB8" stroke-width="1"/>
+  <path d="M150 160 Q235 55 318 160 Z" fill="#1C6B85" fill-opacity="0.5"/>
+  <path d="M322 160 Q405 55 490 160 Z" fill="#1C6B85" fill-opacity="0.5"/>
+  <line x1="110" y1="70" x2="110" y2="160" stroke="#C05A24" stroke-width="1.5"/>
+  <line x1="105" y1="70" x2="115" y2="70" stroke="#C05A24" stroke-width="1.5"/>
+  <line x1="105" y1="160" x2="115" y2="160" stroke="#C05A24" stroke-width="1.5"/>
+  <text x="100" y="120" text-anchor="end" font-size="11" fill="#C05A24">large vibrating depth</text>
+  <text x="320" y="182" text-anchor="middle" font-size="11" fill="#8B8272">midline (glottis)</text>
+</svg>`,
+        diagramCaption:`Schematic front-on section: in chest, a deep, thick portion of each fold vibrates, giving density and strong low harmonics. Compare with head voice (4.2). Informational diagram — to be source-verified before ship.`,
+        ex:[
+          {name:`Spoken "gee" on 1-3-5-3-1`,dur:`5 min`,diff:`Easy`,ref:`C3`,pattern:[0,4,7,4,0],steps:[`Set an easy low-mid reference pitch (drone on the right).`,`On "gee", sing 1-3-5-3-1 in a spoken, chatty feel — not sung and precious.`,`Up a semitone each time, only while it stays easy. Stop the moment it wants to push.`,`Come back down the same way to finish light. Listen for a clear, focused tone with no press.`]},
+          {name:`Chesty count`,dur:`3 min`,diff:`Easy`,ref:`C3`,pattern:[0,0,0,0,0],steps:[`On one comfortable pitch, count "1–2–3–4–5" in a strong speaking voice.`,`Sustain the "5" for four beats, keeping the same spoken weight.`,`Repeat a tone higher; keep it spoken, never shouted.`]}
+        ],
+        video:{title:`NYVC Ep. 13 — Healthy Belting`,id:`21P-ci_Ie9Q`}},
+      {num:'4.2',id:'head',title:'Head voice',level:'Core',
+        desc:`Your higher, lighter register — cool and flute-like.`,
+        explain:`Head voice is your upper register: the folds stretch long and thin, so far less mass vibrates and the tone is lighter, cooler and more flute-like. It gives you range and is the upper ingredient of the mix. The goal is a <em>connected</em> head voice — clear and focused — not the breathy, disconnected falsetto many singers default to.`,
+        how:[
+          `Here the <strong>cricothyroid (CT)</strong> muscle dominates. It tilts the thyroid cartilage forward, lengthening and thinning the folds so only their thin edges vibrate. Less mass means fewer low harmonics and much more ease up high.`,
+          `The catch is closure. Thin folds can vibrate with a gap left between them — that is breathy falsetto, pretty but weak. A trained head voice keeps light but complete closure, so the tone stays clear and carries. The difference between falsetto and connected head voice is almost entirely how firmly the folds meet.`,
+          `Head voice is not the same as "the top of your belt". It is a distinct coordination you can also use low down (a light "hoot") — learning it in isolation first makes it far easier to blend into the mix later.`
+        ],
+        feel:`Resonance lifts behind the soft palate and up into the head. A gentle hooting or "oo" sensation; the note feels like it is already up there and you drop into it rather than reaching up for it.`,
+        cues:[`Call a soft "yoo-hoo" from above and let the voice release upward`,`Think "oo" to keep the folds trim and the tone focused`,`Imagine the pitch sits on a shelf above you — arrive at it lightly`,`Keep a little firmness so it is clear, not breathy`],
+        faults:[`Pushing chest up instead of releasing into head — the voice cracks or strains at the break`,`Collapsing into pure breathy falsetto with no closure — disconnected and weak`,`Reaching or lifting the chin, which tightens rather than frees the top`],
+        fix:`If it is breathy, add a light "g" or "ng" onset to bring the folds together. If it strains, lighten right down and switch the vowel to "oo" — ease first, strength later.`,
+        produce:[
+          `<strong>Start from a call.</strong> Softly call "yoo-hoo" as if to someone upstairs. The second syllable naturally lands in head voice — notice how easy it is.`,
+          `<strong>Sigh down.</strong> From a comfortable high note on "oo", let the voice glide gently downward like a soft sigh, staying quiet and clear.`,
+          `<strong>Add closure.</strong> If it is airy, begin the note with "g" or "ng" to firm the folds, then open to "oo" keeping that focus.`,
+          `<strong>Keep it light and forward.</strong> Do not chase volume — a clear, connected head voice is quiet at first. Power comes later, through the mix.`,
+          `<strong>Explore the range.</strong> Once easy up high, try the same light coordination lower down; that "light hoot" low note is the seed of your mix.`
+        ],
+        check:[
+          `The tone is clear and focused, not breathy or muffled.`,
+          `It feels easy and light — no reaching or squeezing.`,
+          `You can crescendo it slightly without it cutting out or flipping to a shout.`,
+          `A hand on the chest feels little vibration; the sensation is higher, in the head/face.`,
+          `You can slide down from head toward your break without a sudden change of weight.`
+        ],
+        troubleshoot:[
+          `<strong>Breathy, airy, weak</strong> → folds not closing. Add "g"/"ng" onsets and a touch of "ee" brightness.`,
+          `<strong>Strains or cracks near the break</strong> → carrying too much chest weight up. Lighten first, then approach from above with "yoo-hoo".`,
+          `<strong>Sounds hooty and dull</strong> → too dark/covered. Brighten the vowel slightly toward "ee" for focus.`,
+          `<strong>Nothing but falsetto, no strength</strong> → normal at first. Build closure gradually; do not force volume, it will connect over weeks.`
+        ],
+        myths:[
+          `"Head voice is falsetto." — Falsetto is head voice with the folds left slightly apart (breathy). Connected head voice closes them, so it is clear and usable.`,
+          `"Head voice is weak by nature." — Untrained it is quiet, but with closure and resonance it becomes strong; it is also the raw material of a powerful mix.`
+        ],
+        diagramSVG:`<svg viewBox="0 0 640 200" width="100%" font-family="Inter,sans-serif" role="img" aria-label="Coronal schematic of long thin head-voice folds">
+  <text x="320" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B17">Coronal view · head — long, thin folds</text>
+  <line x1="70" y1="160" x2="570" y2="160" stroke="#D6CDB8" stroke-width="1"/>
+  <path d="M120 160 Q235 120 318 160 Z" fill="#8FBAC8" fill-opacity="0.85"/>
+  <path d="M322 160 Q405 120 520 160 Z" fill="#8FBAC8" fill-opacity="0.85"/>
+  <line x1="90" y1="128" x2="90" y2="160" stroke="#C05A24" stroke-width="1.5"/>
+  <line x1="85" y1="128" x2="95" y2="128" stroke="#C05A24" stroke-width="1.5"/>
+  <line x1="85" y1="160" x2="95" y2="160" stroke="#C05A24" stroke-width="1.5"/>
+  <text x="80" y="150" text-anchor="end" font-size="11" fill="#C05A24">small depth</text>
+  <text x="320" y="182" text-anchor="middle" font-size="11" fill="#8B8272">midline (glottis)</text>
+</svg>`,
+        diagramCaption:`Schematic front-on section: in head voice the folds are stretched long and thin, so only a shallow edge vibrates — light and easy, but it needs firm closure to stay clear rather than breathy. Compare with chest (4.1). Informational diagram — to be source-verified before ship.`,
+        ex:[
+          {name:`"Yoo-hoo" glides down`,dur:`5 min`,diff:`Easy–moderate`,ref:`G4`,pattern:{type:'glide',from:0,to:-7},steps:[`From a comfortable high note on "oo", glide gently downward like a soft sigh.`,`Keep it quiet and connected — clear, not airy. Listen for a focused tone, not breath.`,`Repeat starting a semitone higher each time while it stays easy.`]},
+          {name:`"Ng" sirens (upper)`,dur:`4 min`,diff:`Moderate`,ref:`D4`,pattern:{type:'glide',from:0,to:9,andBack:true},steps:[`On "ng" (as in "sing"), siren from a mid note up to a high note and back.`,`Keep the sound narrow and buzzy at the top — that buzz is closure.`,`No push at the peak; let it float. Listen for an even, unbroken line.`]}
+        ],
+        video:{title:`NYVC Ep. 113 — Expand Your Vocal Range`,id:`UFVE9c0BJ64`}},
+      {num:'4.3',id:'passaggio',title:'The passaggio (the break)',level:'Core',
+        desc:`The transition zone where coordination must shift.`,
+        explain:`The passaggio is the transition zone — the "break" — between chest and head, where the folds must change coordination. It is the source of most cracks, flips and strain, and negotiating it smoothly is the single biggest step in registration. It is not a wall; it is a gear-change zone. For your tenor/baritone voice the first passaggio sits around B3–C4 and the second around E4–F4.`,
+        how:[
+          `As pitch rises, the <strong>TA</strong> (which keeps the folds thick) must gradually yield to the <strong>CT</strong> (which stretches and thins them). Hold onto heavy chest and the system over-shoots, then cracks; grab to stop the crack and it pinches. The skill is a smooth, gradual handover of effort through the zone rather than a sudden switch.`,
+          `Two passaggi exist. The <em>primo passaggio</em> (~B3–C4 for you) is where chest first wants to lighten; the <em>secondo passaggio</em> (~E4–F4) is the more obvious "break" where you must commit to a lighter, mixed coordination. Knowing exactly where yours are lets you prepare a note or two early instead of being ambushed by them.`,
+          `Semi-occluded exercises are the great equaliser here: the gentle back-pressure of a lip trill or straw balances the air and the folds so the transition largely happens by itself — you train the coordination without muscling it.`
+        ],
+        feel:`A wobble or an urge to push at specific notes. Map yours precisely (the diagram shows the likely zone) — that awareness is half the battle.`,
+        cues:[`Lighten slightly and narrow the vowel toward "oo" or "uh" as you approach the zone`,`Keep airflow steady and even — no shove, no backing off`,`Let semi-occluded sounds (lip trills, straw) carry you through hands-free`,`Prepare early — begin easing a note or two before the break, not at it`],
+        faults:[`Pushing chest through the zone — strain, then a flip`,`Squeezing to avoid the flip — a tight, pinched tone`,`Backing off the breath — the note goes breathy and disconnected`],
+        fix:`Lip trills or a straw remove the pressure so the transition happens on its own; do slow sirens straight through the zone daily until the seam disappears. If a specific note always breaks, isolate it and trill across it repeatedly.`,
+        produce:[
+          `<strong>Find your break.</strong> Slide slowly up on an "ee" or "oo" and note where it wobbles or wants to flip — that is your secondo passaggio (likely ~E4–F4).`,
+          `<strong>Take the pressure off.</strong> Switch to a lip trill or straw. On that, siren slowly from low chest up through the break and into head.`,
+          `<strong>Keep the effort even.</strong> Do not change loudness or push at the break — the trill should sound identical the whole way through.`,
+          `<strong>Lighten and narrow.</strong> As you reach the zone, think "oo/uh" and let the tone get a shade smaller — this invites the folds to thin instead of jamming.`,
+          `<strong>Go both ways.</strong> Glide back down through the break just as smoothly, then gradually swap the trill for a real vowel once the seam is gone.`
+        ],
+        check:[
+          `You can glide from chest to head and back with no audible click, flip or gap.`,
+          `The loudness stays roughly even across the break — no sudden surge or drop.`,
+          `On a lip trill the transition is already smooth before you try it on a vowel.`,
+          `You know, to the note, where your break is — and can prepare for it.`,
+          `The zone feels like a gentle gear-change, not a cliff edge.`
+        ],
+        troubleshoot:[
+          `<strong>Cracks/flips up to head</strong> → too much chest weight held too long. Lighten earlier and narrow the vowel toward "oo".`,
+          `<strong>Pinched or tight through the zone</strong> → squeezing to avoid the flip. Return to lip trills/straw; let back-pressure do the work.`,
+          `<strong>Goes breathy at the break</strong> → you backed off the air/closure. Keep steady airflow and a light firm onset.`,
+          `<strong>Smooth on a trill but not on vowels</strong> → carry the trill coordination over gradually; alternate one bar trill, one bar "oo".`
+        ],
+        myths:[
+          `"The break is a flaw to be hidden." — It is a normal feature of every voice; trained, it becomes an invisible transition, not a defect.`,
+          `"You must power through the passaggio." — The opposite: you ease and lighten through it. Power there comes later, from the mix, not from force.`
+        ],
+        diagramSVG:`<svg viewBox="0 0 720 190" width="100%" font-family="Inter,sans-serif" role="img" aria-label="Approximate passaggio map for a tenor-baritone voice">
+  <rect x="60" y="66" width="300" height="48" fill="#1C6B85" fill-opacity="0.16"/>
+  <rect x="360" y="66" width="150" height="48" fill="#C05A24" fill-opacity="0.18"/>
+  <rect x="510" y="66" width="150" height="48" fill="#1C6B85" fill-opacity="0.42"/>
+  <line x1="60" y1="114" x2="660" y2="114" stroke="#D6CDB8" stroke-width="1"/>
+  <text x="210" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B17">Chest</text>
+  <text x="435" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#C05A24">Passaggio · blend</text>
+  <text x="585" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B17">Head / mix</text>
+  <text x="70" y="134" font-size="11" fill="#8B8272">A2</text>
+  <text x="170" y="134" font-size="11" fill="#8B8272">E3</text>
+  <text x="300" y="134" font-size="11" fill="#8B8272">B3</text>
+  <text x="360" y="134" font-size="11" fill="#8B8272">C4</text>
+  <text x="500" y="134" font-size="11" fill="#8B8272">F4</text>
+  <text x="590" y="134" font-size="11" fill="#8B8272">A4</text>
+  <text x="648" y="134" font-size="11" fill="#8B8272">C5</text>
+  <text x="360" y="176" text-anchor="middle" font-size="11" fill="#8B8272">lower pitch → higher pitch</text>
+</svg>`,
+        diagramCaption:`Approximate map for a tenor/baritone. The first passaggio sits around B3–C4 and the second around E4–F4: below it favour chest, through the shaded band blend into mix, above it head/mix. Your exact notes may sit a semitone or two either way. Informational diagram — to be source-verified before ship.`,
+        ex:[
+          {name:`Lip-trill sirens through the break`,dur:`5 min`,diff:`Moderate`,ref:`C3`,pattern:{type:'glide',from:0,to:14,andBack:true},steps:[`Set a slow metronome (right rail) if you want a steady pace.`,`On a lip trill, siren slowly from low chest up through your break and into head, then back down.`,`Do not change effort at the break — keep the trill even the whole way.`,`Only add speed once the seam is smooth. Listen for zero click at the transition.`]},
+          {name:`Straw glides`,dur:`4 min`,diff:`Moderate`,ref:`C3`,pattern:{type:'glide',from:0,to:14,andBack:true},steps:[`Phonate through a narrow straw (or "oo" with pursed lips).`,`Glide the same low-to-high-to-low path.`,`Feel the back-pressure balancing the folds so the change happens by itself.`]}
+        ],
+        video:{title:`NYVC Ep. 101 — The Greatest Vocal Exercise of All Time`,id:`h0SIEY_zNqU`}},
+      {num:'4.4',id:'mix',title:'Building the mix',level:'Core',
+        desc:`The learned coordination that carries strength through the break.`,
+        explain:`The mix is not a third register but a balanced coordination of the same two muscle systems that make chest and head. You keep enough vocal-fold closure and thickness for a strong, connected tone, while allowing enough fold stretch for the pitch to rise without strain. In practice it is what lets a man sing around F4–A4, or a woman around C5–E5, with much of the strength of chest but the ease of head — the sound behind a belted chorus and an effortless jazz line alike.`,
+        how:[
+          `Two intrinsic muscle groups set the shape of the folds. The <strong>thyroarytenoid (TA)</strong> — the body of the fold itself — shortens and thickens them, adding mass and the bright, harmonically rich quality we hear as "chest". The <strong>cricothyroid (CT)</strong> tilts the thyroid cartilage forward to stretch and thin the folds, giving the lighter "head" quality and easy height. In pure chest the TA dominates; in pure head the CT dominates.`,
+          `In a mix the two are held in <em>antagonistic balance</em>: the CT provides stretch so the pitch sits comfortably, while the TA keeps enough medial compression that the folds still close firmly — a longer closed phase of each vibration — so the tone stays connected and loud rather than breathy.`,
+          `Crucially, much of the perceived power in a good mix is <em>resonance, not muscular push</em>. A near-neutral larynx and a slightly narrowed vowel let your vocal-tract resonances reinforce the upper harmonics — the "ring" around 2.8–3.2 kHz (the singer's-formant / twang region). That ring is what makes a mixed note cut and feel powerful while the folds themselves work only moderately. If you take one idea from this page: up high, reach for brighter resonance before you reach for more effort.`
+        ],
+        feel:`A tall, narrow, forward resonance that stays connected through the break — neither heavy and shouty nor light and breathy. The note should feel noticeably lighter than it sounds.`,
+        cues:[`Keep a tall, narrow mouth and a bright, forward "buzz"`,`Use "mum" or "no" — their gentle semi-occlusion builds in closure and ease`,`Keep the larynx still: a hand on the throat should feel no sudden jump upward`,`Aim the sound forward into the mask rather than pushing it up and out`],
+        faults:[`Pushing chest weight up instead of blending — the mix turns into a shout, then cracks`,`Over-lightening into breathy head voice — the power drains away`,`A rising larynx and squeezed throat as you climb — muscling height instead of tuning resonance`],
+        fix:`If it shouts, halve the volume, brighten and narrow the vowel, and let resonance carry it. If it thins out, add a firmer "g" or "b" onset for closure and a touch more twang. If the larynx jumps, do a couple of silent yawn-sigh releases and restart quieter on "ng".`,
+        produce:[
+          `<strong>Find the ingredient first.</strong> Say "mum" in a slightly bratty, witch-cackle-bright tone. That edge is <em>twang</em> — it pre-tunes the resonance the mix needs. Keep it comfortable, not harsh.`,
+          `<strong>Anchor it low.</strong> Put that bright "mum" on an easy low-middle pitch (men around C3–E3, women around G3–B3) and keep the forward buzz.`,
+          `<strong>Climb on a scale.</strong> Sing a slow 1-3-5-3-1 on the same bright "mum". Do not get louder going up — hold the volume level and let brightness do the climbing.`,
+          `<strong>Manage the break.</strong> Approaching your passaggio, narrow the vowel a shade toward "muh", and imagine the pitch travelling forward and up into the mask, not up-and-out of the mouth.`,
+          `<strong>Stay steady.</strong> Keep the larynx still and the airflow moderate — no extra shove of air at the top.`,
+          `<strong>Rise only when even.</strong> Move up a semitone only once the current key is easy and even. Even beats high — stop the moment it wants to push.`
+        ],
+        check:[
+          `The note feels lighter than it sounds — clearly less effort than a full belt for similar power.`,
+          `You can swell it louder and softer without it flipping or cutting out.`,
+          `A hand on the chest still feels some buzz (connected), but less than full chest voice.`,
+          `There is no click or gear-change at the break — the timbre stays consistent across it.`,
+          `Recorded back, the tone above the break matches the tone below it, only higher.`
+        ],
+        troubleshoot:[
+          `<strong>Turns into a shout then cracks</strong> → too much weight (TA). Halve the volume, brighten and narrow the vowel, let resonance work.`,
+          `<strong>Goes breathy or thin, loses power</strong> → too little closure (over-CT). Add a firm "g"/"b" onset and more twang.`,
+          `<strong>Larynx rises, throat squeezes</strong> → you are muscling height. Silent yawn-sigh to release, then restart quietly on "ng".`,
+          `<strong>Flips to falsetto on the same note every time</strong> → passaggio under-trained. Return to 4.3 lip-trill sirens on that exact note, then re-approach on "mum".`
+        ],
+        myths:[
+          `"The mix is a separate register." — It is a balance of the same TA–CT system, not a new gear.`,
+          `"Belting is just loud chest pushed high." — Healthy belt is a bright, well-resonated mix; brute force is what damages voices.`,
+          `"More air gives more power up top." — Excess air blows the folds apart and thins the tone; steady, moderate air with firm closure gives power.`
+        ],
+        diagramSVG:`<svg viewBox="0 0 720 300" width="100%" role="img" aria-label="Chart of TA and CT muscle activity across pitch, with the mix as the overlap zone">
+  <polygon points="60,250 60,72 660,214 660,250" fill="#1C6B85" fill-opacity="0.26"/>
+  <polygon points="60,250 60,214 660,72 660,250" fill="#1C6B85" fill-opacity="0.5"/>
+  <rect x="300" y="60" width="120" height="190" fill="#C05A24" fill-opacity="0.12"/>
+  <line x1="360" y1="54" x2="360" y2="250" stroke="#C05A24" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <line x1="60" y1="250" x2="670" y2="250" stroke="#D6CDB8" stroke-width="1"/>
+  <text x="78" y="112" font-family="Inter,sans-serif" font-size="13" fill="#1E1B17" font-weight="700">Chest</text>
+  <text x="78" y="130" font-family="Inter,sans-serif" font-size="11" fill="#8B8272">TA dominant · thick, heavy folds</text>
+  <text x="642" y="112" font-family="Inter,sans-serif" font-size="13" fill="#1E1B17" font-weight="700" text-anchor="end">Head</text>
+  <text x="642" y="130" font-family="Inter,sans-serif" font-size="11" fill="#8B8272" text-anchor="end">CT dominant · long, thin folds</text>
+  <text x="360" y="44" font-family="Inter,sans-serif" font-size="12" fill="#C05A24" font-weight="700" text-anchor="middle">MIX · both active</text>
+  <text x="360" y="270" font-family="Inter,sans-serif" font-size="11" fill="#C05A24" text-anchor="middle">passaggio</text>
+  <text x="60" y="290" font-family="Inter,sans-serif" font-size="11" fill="#8B8272">lower pitch</text>
+  <text x="660" y="290" font-family="Inter,sans-serif" font-size="11" fill="#8B8272" text-anchor="end">higher pitch →</text>
+</svg>`,
+        diagramCaption:`As pitch rises, chest-making muscle (TA) activity tapers while stretch muscle (CT) increases. The mix is the overlap where both stay active — enough closure for power, enough stretch for ease. The exact pitch of your passaggio depends on your voice type. Informational diagram — to be source-verified before ship.`,
+        ex:[
+          {name:`1-3-5-3-1 on "mum" / "no"`,dur:`5 min`,diff:`Moderate`,ref:`C3`,pattern:[0,4,7,4,0],steps:[`Set a comfortable low-middle start pitch on the drone and a moderate metronome (around 72 bpm).`,`On a bright, forward "mum", sing 1-3-5-3-1 starting in easy chest.`,`Hold the volume level for the whole scale — no crescendo upward. Listen for even <em>brightness</em>, not growing loudness.`,`Narrow toward "muh" through the break; keep it connected, not flipped.`,`Up a semitone each pass while it stays easy — aim for 5–8 keys, then come back down.`]},
+          {name:`Octave "wee" / "woo"`,dur:`4 min`,diff:`Moderate`,ref:`G3`,pattern:[0,12,0],steps:[`Leap an octave on "wee", then "woo".`,`Keep the top note connected and bright — not a breathy falsetto flip.`,`Listen for the two notes sounding like one instrument an octave apart.`,`Repeat rising by semitone; 4–6 keys.`]},
+          {name:`Descending 5-4-3-2-1, mix to chest`,dur:`3 min`,diff:`Moderate`,ref:`A3`,pattern:[7,5,4,2,0],steps:[`Start in the mix on "5" and sing down to "1" on "no".`,`Carry the lighter mix coordination downward — do not dump into heavy chest at the bottom.`,`Keep the weight even all the way down. Listen for a bottom note that is strong but not thick.`]}
+        ],
+        video:{title:`NYVC Ep. 40 — The Mix Voice`,id:`CYEsGuldIQY`}},
+      {num:'4.5',id:'smoothing',title:'Smoothing transitions',level:'Refinement',
+        desc:`One connected instrument, top to bottom.`,
+        explain:`Once you can find chest, head and mix, the aim is to move between them with no audible seam — a single connected instrument from bottom to top. This is the refinement stage of registration: not a new sound, but the disappearance of the joins between the ones you already have. The listener should never hear a gear-change.`,
+        how:[
+          `Seamlessness comes from <em>consistency</em> across three variables as you cross the range: airflow (steady, no surge), vowel shape (kept tall and constant), and resonance/weight (changing gradually, never in a step). Any sudden change in one of those is exactly what the ear labels a "break".`,
+          `Physiologically you are asking the TA-to-CT handover (from 4.3) to happen so gradually that no single note is where the switch "occurs". You already trained the transition on lip trills; here you transfer that smoothness onto real vowels and then onto words.`,
+          `The most efficient tool is the octave slide: it forces you through the whole transition in one gesture, so any unevenness is immediately obvious and immediately trainable. Slow is the operative word — speed hides seams; slow exposes and smooths them.`
+        ],
+        feel:`An even thread of tone; the vowel stays tall and connected; no lurch in volume or weight through the middle. It should feel like one continuous surface, not two rooms with a door between them.`,
+        cues:[`Slide octaves on "wee"/"woo" and keep the vowel identical top and bottom`,`Even the air — no surge or drop through the middle`,`Let weight change gradually; never dump or grab at one note`,`Isolate and rehearse the exact seam note until it stops announcing itself`],
+        faults:[`An audible flip at the same note each time — an under-practised passaggio (revisit 4.3)`,`The vowel spreading wide up top, which breaks the resonance`,`A volume surge through the middle of the range`],
+        fix:`Slow the slide right down; drill the seam note in isolation with a messa di voce; return to lip trills whenever the coordination slips, to reset. If one vowel breaks but another does not, practise the smooth vowel and morph toward the difficult one.`,
+        produce:[
+          `<strong>Pick one vowel.</strong> Start on "wee" or "woo" — narrow vowels blend most easily. You will generalise to others later.`,
+          `<strong>Slide, do not step.</strong> Glide slowly up an octave and back on that single vowel, as one unbroken gesture. No discrete notes, no gear-change.`,
+          `<strong>Keep the vowel fixed.</strong> The mouth shape and vowel colour should be identical at the bottom and the top — resist spreading wide as you rise.`,
+          `<strong>Hunt the seam.</strong> Record a slide and listen back for the exact point of unevenness. Take that note and do a soft-loud-soft swell on it, holding one coordination.`,
+          `<strong>Transfer outward.</strong> Once "wee/woo" is seamless, morph mid-slide toward "ah"/"oh", then sing a short phrase across the break keeping the same evenness.`
+        ],
+        check:[
+          `An octave slide up and down sounds like one line, with no findable join.`,
+          `The same passage on different vowels is equally smooth.`,
+          `Loudness and tone-colour stay even across the middle of your range.`,
+          `On a recording you cannot point to the note where chest "becomes" head.`,
+          `You can sing a real phrase across the break without a listener noticing a transition.`
+        ],
+        troubleshoot:[
+          `<strong>Same note always flips</strong> → the passaggio itself needs work. Go back to 4.3 and trill across that note, then return here.`,
+          `<strong>Smooth going up, breaks coming down</strong> → you are dropping weight too suddenly. Descend even more slowly, keeping a little head coordination low.`,
+          `<strong>Tone thins or spreads at the top</strong> → vowel is widening. Keep it tall and narrow; think "oo" to re-focus.`,
+          `<strong>Smooth on "wee" but not "ah"</strong> → open vowels are harder. Blend "wee → ah" gradually so the smoothness carries over.`
+        ],
+        myths:[
+          `"A smooth voice means no registers." — The registers still exist; you have simply trained the transitions to be inaudible.`,
+          `"You smooth the break by singing louder through it." — Louder usually worsens seams. Slow, quiet, even slides are what dissolve them.`
+        ],
+        diagramSVG:`<svg viewBox="0 0 720 230" width="100%" font-family="Inter,sans-serif" role="img" aria-label="Comparison of an un-blended line with a break versus a blended connected line">
+  <text x="60" y="30" font-size="12" fill="#8B8272">Un-blended — the ear hears a gear-change</text>
+  <polyline points="60,72 170,62 290,54" fill="none" stroke="#C05A24" stroke-width="3"/>
+  <polyline points="300,96 420,86 540,78 650,72" fill="none" stroke="#C05A24" stroke-width="3"/>
+  <line x1="295" y1="54" x2="295" y2="96" stroke="#C05A24" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="305" y="120" font-size="11" fill="#C05A24">flip / break</text>
+  <text x="60" y="168" font-size="12" fill="#8B8272">Blended — one connected line, bottom to top</text>
+  <path d="M60 210 C 250 168, 460 150, 660 140" fill="none" stroke="#1C6B85" stroke-width="3"/>
+</svg>`,
+        diagramCaption:`Above: two register segments with a discontinuity — the audible break. Below: the same range trained so weight, air and vowel change gradually, giving one connected line. Smoothing does not remove the registers, it hides the join. Informational diagram — to be source-verified before ship.`,
+        ex:[
+          {name:`Octave slides on "wee" / "woo"`,dur:`5 min`,diff:`Moderate–hard`,ref:`F3`,pattern:{type:'glide',from:0,to:12,andBack:true},steps:[`Slide slowly up and down an octave, keeping one vowel shape.`,`Aim for a single unbroken line — no gear-change. Slow exposes seams; speed hides them.`,`Record one and listen back for the seam (log it on the right).`]},
+          {name:`Messa di voce on the seam note`,dur:`3 min`,diff:`Hard`,ref:`E4`,pattern:[0],steps:[`On your exact break note, swell soft → loud → soft on one breath.`,`Hold the mix coordination steady the whole way — do not let it flip at the loud point.`,`Keep the pitch dead centre against the drone.`]}
+        ],
+        video:{title:`NYVC Ep. 115 — Find Your Mix Voice (Part 2)`,id:`RVYvo44kMms`}}
+    ]}
+  ,
+  {n:'05',id:'resonance',title:'Resonance & Tone',group:'Technical core',core:true},
+  {n:'06',id:'range',title:'Range & Flexibility',group:'Technical core',core:true},
+  {n:'07',id:'pitch',title:'Pitch & Ear',group:'Control'},
+  {n:'08',id:'diction',title:'Articulation & Diction',group:'Control'},
+  {n:'09',id:'dynamics',title:'Dynamics & Expression',group:'Control'},
+  {n:'10',id:'style',title:'Stylisation',group:'Application'},
+  {n:'11',id:'apply',title:'Application & Practice',group:'Application'}
+];
+
+const PLAN=[
+  {n:1,focus:'Foundations & breath',goal:'Reset posture, release tension, low supported breath',area:'foundations'},
+  {n:2,focus:'Onset & phonation',goal:'Clean, connected onset; daily SOVT warm-ups',area:'onset'},
+  {n:3,focus:'Registration: chest & head',goal:'Distinct, healthy chest and head voice',area:'registration',core:true},
+  {n:4,focus:'Registration: passaggio & mix',goal:'Through the break without pushing; find the mix',area:'registration',core:true,now:true},
+  {n:5,focus:'Registration: smoothing',goal:'Seamless transitions, top to bottom',area:'registration',core:true},
+  {n:6,focus:'Resonance & tone',goal:'Forward ring, colour control, twang',area:'resonance',core:true},
+  {n:7,focus:'Range & flexibility',goal:'Extend range safely; clean agility',area:'range',core:true},
+  {n:8,focus:'Core consolidation',goal:'Run the whole core in one sitting',area:'registration',core:true},
+  {n:9,focus:'Pitch & ear',goal:'Accurate matching; in tune against a drone',area:'pitch'},
+  {n:10,focus:'Articulation & diction',goal:'Even vowels; clear consonants',area:'diction'},
+  {n:11,focus:'Dynamics & expression',goal:'Swells, controlled vibrato, even sustain',area:'dynamics'},
+  {n:12,focus:'Stylisation & application',goal:'Swing phrasing, blue notes; a full song',area:'style'}
+];
+
+const GLOSS={
+  'passaggio':'The transition zone between vocal registers where fold coordination must shift — the "break".',
+  'twang':'A bright, ringing resonance made by narrowing the space above the folds; adds carrying power without force.',
+  'SOVT':'Semi-occluded vocal tract exercises (lip trills, straws, hums) that balance the folds using gentle back-pressure.',
+  'TA':'Thyroarytenoid muscle — the body of the vocal fold; shortens and thickens it (chest-dominant).',
+  'CT':'Cricothyroid muscle — tilts the thyroid cartilage to stretch and thin the folds for higher pitch (head-dominant).',
+  'onset':'How a note begins — the way the folds come together at the very start of a tone.',
+  'messa di voce':'A sustained note taken softly to loud and back to soft on a single breath.',
+  'formant':'A resonance peak of the vocal tract that shapes vowel identity and tone colour.',
+  'mix':'A balanced blend of chest and head fold function that carries strength through the passaggio.',
+  'registration':'How the vocal folds change their vibration pattern across your range (chest, mix, head).',
+  'larynx':'The "voice box" that houses the vocal folds; its height strongly affects tone colour.',
+  'falsetto':'A light upper-register sound where the folds vibrate with a gap between them, giving a breathy tone.',
+  'glottis':'The opening between the two vocal folds.',
+  'vibrato':'A small, regular fluctuation of pitch that gives a sung note warmth and life.'
+};
+function glossify(html){
+  const svgs=[]; html=html.replace(/<svg[\s\S]*?<\/svg>/g,m=>{svgs.push(m);return ' ⁣'+(svgs.length-1)+'⁣ ';});
+  const terms=Object.keys(GLOSS).sort((a,b)=>b.length-a.length);
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const used={};
+  html=html.split(/(<[^>]+>)/).map(seg=>{
+    if(seg.charAt(0)==='<')return seg;
+    terms.forEach(t=>{
+      if(used[t])return;
+      const re=new RegExp('\\b('+esc(t)+')\\b');
+      if(re.test(seg)){seg=seg.replace(re,'<span class="gl" title="'+GLOSS[t].replace(/"/g,'&quot;')+'">$1</span>');used[t]=1;}
+    });
+    return seg;
+  }).join('');
+  return html.replace(/⁣(\d+)⁣/g,(m,i)=>svgs[+i]);
+}
+
+/* ---------------- rendering ---------------- */
+const main=document.getElementById('main');
+const nav=document.getElementById('nav');
+let state={view:'home',areaId:null,sectionId:null};
+window.__PAT={};
+
+function buildNav(){
+  let h=`<a class="item ${state.view==='home'?'active':''}" onclick="go('home')"><span class="n">→</span><span>Home</span></a>`;
+  h+=`<h4>Learning areas</h4>`;
+  AREAS.forEach(a=>{
+    const active=(state.view!=='home'&&state.areaId===a.id)?'active':'';
+    h+=`<a class="item ${a.core?'core':''} ${active}" onclick="go('area','${a.id}')"><span class="n">${a.n}</span><span>${a.title}</span></a>`;
+  });
+  h+=`<h4>Practise</h4>`;
+  h+=`<a class="item" onclick="go('home')"><span class="n">♪</span><span>Warm-ups &amp; sessions</span></a>`;
+  h+=`<a class="item ${state.view==='plan'?'active':''}" onclick="go('plan')"><span class="n">▦</span><span>Twelve-week plan</span></a>`;
+  h+=`<a class="item ${state.view==='glossary'?'active':''}" onclick="go('glossary')"><span class="n">A–Z</span><span>Glossary</span></a>`;
+  h+=`<a class="item" onclick="go('home')"><span class="n">✎</span><span>Practice log</span></a>`;
+  nav.innerHTML=h;
+}
+function go(view,areaId,sectionId){state={view,areaId:areaId||null,sectionId:sectionId||null};render();window.scrollTo(0,0);}
+
+function areaById(id){return AREAS.find(a=>a.id===id);}
+
+function render(){
+  buildNav();
+  if(state.view==='home')return renderHome();
+  if(state.view==='plan')return renderPlan();
+  if(state.view==='glossary')return renderGlossary();
+  const a=areaById(state.areaId);
+  if(state.view==='section')return renderSection(a,a.sections.find(s=>s.id===state.sectionId));
+  return renderArea(a);
+}
+
+function renderHome(){
+  const cards=AREAS.map(a=>`
+    <div class="acard ${a.core?'core':''}" onclick="go('area','${a.id}')">
+      <div class="an">${a.n}</div>
+      <div><div class="at">${a.title}</div><div class="ag">${a.group}</div>
+      <div class="secs">${a.sections?a.sections.length+' sections · resource, recall &amp; exercises':'Specced — coming to full depth'}</div></div>
+    </div>`).join('');
+  const strip=PLAN.map(w=>`
+    <div class="pw ${w.core?'core':''} ${w.now?'now':''}" onclick="go('plan')">
+      <div class="pwn">Wk ${w.n}</div><div class="pwf">${w.focus}</div></div>`).join('');
+  main.innerHTML=`
+    <div class="overline crumb">Home</div>
+    <h1 class="title">Good evening.</h1>
+    <div class="warmups">
+      <div class="w"><div class="big">5</div><div class="u">min warm-up</div></div>
+      <div class="w"><div class="big">10</div><div class="u">min warm-up</div></div>
+      <div class="w"><div class="big">20</div><div class="u">min warm-up</div></div>
+    </div>
+    <div class="resume" onclick="go('section','registration','mix')"><div><div class="overline">Resume where you left off</div><strong>Registration · 4.4 Building the mix</strong></div><div style="color:var(--muted)">›</div></div>
+
+    <hr class="rule">
+    <div class="overline">The eleven areas</div>
+    <p class="sublede">Each is a self-contained resource — tap in for the write-up, quick recall and exercises. Teal-numbered areas are the technical core.</p>
+    <div class="areagrid">${cards}</div>
+
+    <hr class="rule">
+    <div class="overline">Twelve-week plan · the whole programme at a glance</div>
+    <p class="sublede">The training thread that sequences the areas above. Use it as a route, or ignore it and free-practise — it is progress-based, never date-locked.</p>
+    <div class="planstrip">${strip}</div>
+    <div class="planband">Shaded band = the <b>technical core</b> (weeks 3–8, half the plan). Orange outline = where you are now. Tap any week for its goal and sessions.</div>
+  `;
+}
+
+function renderPlan(){
+  const rows=PLAN.map(w=>`
+    <div class="week ${w.core?'core':''}" onclick="go('area','${w.area}')">
+      <div class="wn">Wk ${w.n}${w.now?' •':''}</div>
+      <div><div class="wf">${w.focus}</div><div class="wg">${w.goal}</div></div>
+    </div>`).join('');
+  main.innerHTML=`
+    <div class="overline crumb">Practise · training programme</div>
+    <h1 class="title">Twelve-week plan</h1>
+    <p class="lede">A followable, revisitable programme that sequences the areas over twelve weeks. Progress-based, not date-locked — advance when a week feels solid, and repeat or jump freely. It adds no new content; each week points at areas and sessions you already have.</p>
+    <div class="planband" style="margin-bottom:8px">The shaded weeks are the <b>technical core</b> (Registration, Resonance, Range) — half the plan, reflecting the technique-first priority. Each week: a warm-up, the listed area session(s), and one focus goal.</div>
+    ${rows}
+    <p class="tinynote" style="margin-top:16px">Tapping a week opens its area. "•" marks the current week.</p>
+  `;
+}
+
+function renderArea(a){
+  if(!a.sections){
+    main.innerHTML=`<div class="overline crumb">Area ${a.n} · ${a.group}</div><h1 class="title">${a.title}</h1>
+      <div class="placeholder">This area is specced in the handover (sections, exercises and videos) and will be built to the same depth as Registration.<br><br><span class="btn ghost" onclick="go('area','registration')" style="cursor:pointer">See the fully-built Registration area →</span></div>`;
+    return;
+  }
+  let secs='';
+  a.sections.forEach(s=>{
+    secs+=`<div class="row" onclick="go('section','${a.id}','${s.id}')">
+      <div class="num">${s.num}</div>
+      <div class="rt"><div class="st">${s.title}</div><div class="sd">${s.desc}</div></div>
+      <div class="lvl">${s.level}</div><div class="chev">›</div></div>`;
+  });
+  main.innerHTML=`
+    <div class="overline crumb">Area ${a.n} · Technical core</div>
+    <h1 class="title">${a.title}</h1>
+    <p class="lede">${a.lede}</p>
+    ${a.diagram?diagramHTML():''}
+    <div class="block"><p>${a.intro}</p></div>
+    <hr class="rule">
+    <div class="overline">The five sections</div>
+    <div class="sections">${secs}</div>
+    <button class="btn" onclick="go('section','${a.id}','${a.sections[0].id}')">Run this area →</button>
+    <p class="tinynote" style="margin-top:14px">"Run this area" chains every exercise below into one guided session with the timer and reference tones.</p>
+  `;
+}
+
+function diagramHTML(){
+  return `<div class="diagram">
+    <div class="overline">Diagram · fold length &amp; thickness</div>
+    <div class="bars">
+      <div style="flex:1"><div class="overline" style="margin-bottom:6px">Chest — short, thick</div><div class="bar" style="width:70%"></div></div>
+      <div style="flex:1;text-align:right"><div class="overline" style="margin-bottom:6px">Head — long, thin</div><div class="bar head" style="width:88%;margin-left:auto"></div></div>
+    </div>
+    <div class="dash"></div>
+    <div class="zone">PASSAGGIO · blend zone</div>
+    <div class="caption">Verified informational diagram (placeholder). Every diagram is checked against a reliable source before it ships (VisualAsset.verified = true).</div>
+  </div>`;
+}
+
+function renderSection(a,s){
+  const howHTML=(Array.isArray(s.how)?s.how:[s.how]).map(p=>`<p>${p}</p>`).join('');
+  const cues=s.cues.map(c=>`<li>${c}</li>`).join('');
+  const faults=s.faults.map(c=>`<li>${c}</li>`).join('');
+  const listBlock=(label,arr,cls='')=> (arr&&arr.length)?`<div class="block"><span class="overline">${label}</span><ul class="cues ${cls}">${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:'';
+  const stepBlock=(label,arr)=> (arr&&arr.length)?`<div class="block"><span class="overline">${label}</span><ol class="prod">${arr.map(x=>`<li>${x}</li>`).join('')}</ol></div>`:'';
+  const diagram= s.diagramSVG?`<div class="diagram"><span class="overline">Diagram · the TA–CT balance across your range</span>${s.diagramSVG}<div class="caption">${s.diagramCaption||''}</div></div>`:diagramHTML();
+  window.__PAT={};
+  let ex='';
+  s.ex.forEach((e,i)=>{
+    window.__PAT[i]={pattern:e.pattern,ref:e.ref};
+    const hear=e.pattern?`<button class="hear" onclick="playPat(${i})">▶ Hear the pattern</button>`:'';
+    ex+=`<div class="ex">
+      <div class="exhead"><div class="exname">${e.name}</div><div class="meta">${e.dur} · ${e.diff}</div></div>
+      <ol>${e.steps.map(st=>`<li>${st}</li>`).join('')}</ol>
+      <div class="exfoot"><span class="ref" onclick="setDrone('${e.ref}')">♪ Set reference pitch: ${e.ref} →</span>${hear}</div>
+    </div>`;
+  });
+  main.innerHTML=glossify(`
+    <div class="back" onclick="go('area','${a.id}')">‹ ${a.title}</div>
+    <div class="overline crumb">${a.title} · ${s.num}</div>
+    <h1 class="title">${s.title}</h1>
+    <span class="tag">${s.level}</span>
+    <div class="callout" style="margin-top:16px"><span class="overline">Quick recall · at a glance</span>
+      <div style="margin:2px 0 8px">${s.desc}</div>
+      <ul class="cues" style="margin-top:0">${s.cues.slice(0,2).map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="tinynote" style="margin-top:8px">Drill: <strong>${s.ex[0].name}</strong> · ${s.ex[0].dur}. Read on for the full resource.</div>
+    </div>
+    <div class="block"><span class="overline">Explain</span><p>${s.explain}</p></div>
+    <div class="block"><span class="overline">Technique · how it works</span>${howHTML}
+      <div class="callout"><span class="overline">What to feel</span>${s.feel}</div>
+      <span class="overline">Cues</span><ul class="cues">${cues}</ul>
+      <div class="callout fault"><span class="overline">Common faults</span><ul class="cues fault">${faults}</ul></div>
+      <span class="overline">If it goes wrong</span><p>${s.fix}</p>
+    </div>
+    ${stepBlock('How to produce it · step by step',s.produce)}
+    ${diagram}
+    ${listBlock('Check you have got it',s.check)}
+    <div class="block"><span class="overline">Exercises</span>${ex}</div>
+    ${listBlock('Troubleshooting',s.troubleshoot,'fault')}
+    ${listBlock('Common misconceptions',s.myths)}
+    <div class="block"><span class="overline">Watch — plays in the card</span>
+      <div class="video" id="vid">
+        <div class="vframe">
+          <iframe src="https://www.youtube-nocookie.com/embed/${s.video.id}" title="${s.video.title}" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+          <div class="vfallback"><strong>Video unavailable</strong><span class="tinynote" style="margin-top:6px">This clip has been removed or embedding is disabled.</span></div>
+        </div>
+        <div class="vmeta"><span>${s.video.title}</span>
+          <span><a href="https://www.youtube.com/watch?v=${s.video.id}" target="_blank" rel="noopener">Open on YouTube ↗</a>
+          &nbsp;·&nbsp;<span class="toggle" onclick="document.getElementById('vid').classList.toggle('unavailable')">toggle fallback</span></span>
+        </div>
+      </div>
+    </div>
+    <button class="btn" onclick="alert('Logged (demo). In the app this writes to your Practice Log and syncs across devices.')">＋ Log this practice</button>
+  `);
+}
+
+function renderGlossary(){
+  const rows=Object.keys(GLOSS).sort().map(t=>`<div class="grow"><div class="gt">${t}</div><div class="gd">${GLOSS[t]}</div></div>`).join('');
+  main.innerHTML=`
+    <div class="overline crumb">Reference</div>
+    <h1 class="title">Glossary</h1>
+    <p class="lede">Plain-English definitions of the technical terms used across the app. Throughout the lessons these terms are underlined — hover to see the definition without leaving the page.</p>
+    <div class="gloss">${rows}</div>`;
+}
+
+/* ---------------- audio tools ---------------- */
+const FREQ={'C3':130.81,'D3':146.83,'E3':164.81,'F3':174.61,'G3':196.00,'A3':220.00,'B3':246.94,
+  'C4':261.63,'D4':293.66,'E4':329.63,'F4':349.23,'G4':392.00,'A4':440.00,'C5':523.25};
+let AC,drone,droneGain,droneNote='C3',dronePlaying=false;
+function ac(){if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();return AC;}
+function buildNotes(){
+  const box=document.getElementById('notes');
+  box.innerHTML=Object.keys(FREQ).map(n=>`<span class="note ${n===droneNote?'on':''}" onclick="setDrone('${n}')">${n}</span>`).join('');
+}
+function setDrone(n){droneNote=n;document.getElementById('droneNow').textContent=n;buildNotes();
+  if(dronePlaying){stopDrone();startDrone();}}
+function startDrone(){const c=ac();drone=c.createOscillator();droneGain=c.createGain();
+  drone.type='sine';drone.frequency.value=FREQ[droneNote];droneGain.gain.value=0.12;
+  drone.connect(droneGain).connect(c.destination);drone.start();dronePlaying=true;
+  const b=document.getElementById('droneBtn');b.textContent='■ Stop drone';b.classList.add('active');}
+function stopDrone(){if(drone){drone.stop();drone.disconnect();}dronePlaying=false;
+  const b=document.getElementById('droneBtn');b.textContent='▶ Play drone';b.classList.remove('active');}
+document.getElementById('droneBtn').onclick=()=>{ac().resume();dronePlaying?stopDrone():startDrone();};
+
+function playPat(i){const o=window.__PAT[i];if(o&&o.pattern)playPattern(o.pattern,o.ref);}
+function playPattern(p,refNote){
+  const c=ac();c.resume();
+  const base=FREQ[refNote]||FREQ['C3'];
+  const semiToF=s=>base*Math.pow(2,s/12);
+  const o=c.createOscillator();const g=c.createGain();o.type='sine';o.connect(g).connect(c.destination);g.gain.value=0.0001;
+  const t0=c.currentTime+0.06;
+  if(!Array.isArray(p)&&p&&p.type==='glide'){
+    const f1=semiToF(p.from||0),f2=semiToF(p.to||0);let end=t0+1.4;
+    o.frequency.setValueAtTime(f1,t0);o.frequency.linearRampToValueAtTime(f2,t0+1.4);
+    if(p.andBack){o.frequency.linearRampToValueAtTime(f1,t0+2.8);end=t0+2.8;}
+    g.gain.exponentialRampToValueAtTime(0.16,t0+0.1);g.gain.setValueAtTime(0.16,end-0.15);g.gain.exponentialRampToValueAtTime(0.0001,end);
+    o.start(t0);o.stop(end+0.05);
+  }else{
+    const arr=Array.isArray(p)?p:[0];const step=arr.length>1?0.55:1.2;
+    arr.forEach((semi,k)=>{const t=t0+k*step;o.frequency.setValueAtTime(semiToF(semi),t);
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.16,t+0.05);g.gain.exponentialRampToValueAtTime(0.0001,t+step-0.05);});
+    o.start(t0);o.stop(t0+arr.length*step+0.1);
+  }
+}
+
+let metTimer=null;
+function click(){const c=ac();const o=c.createOscillator();const g=c.createGain();
+  o.frequency.value=1600;g.gain.value=0.0001;o.connect(g).connect(c.destination);
+  const t=c.currentTime;g.gain.setValueAtTime(0.35,t);g.gain.exponentialRampToValueAtTime(0.0001,t+0.05);
+  o.start(t);o.stop(t+0.06);}
+const bpm=document.getElementById('bpm'),bpmVal=document.getElementById('bpmVal'),metBtn=document.getElementById('metBtn');
+bpm.oninput=()=>{bpmVal.textContent=bpm.value;if(metTimer){startMet();}};
+function startMet(){stopMet();click();metTimer=setInterval(click,60000/bpm.value);metBtn.textContent='■ Stop';metBtn.classList.add('active');}
+function stopMet(){if(metTimer){clearInterval(metTimer);metTimer=null;}metBtn.textContent='▶ Start';metBtn.classList.remove('active');}
+metBtn.onclick=()=>{ac().resume();metTimer?stopMet():startMet();};
+
+document.getElementById('logbtn').onclick=()=>{
+  const t=document.getElementById('lognote').value.trim();
+  document.getElementById('logmsg').textContent=t?'Logged (demo) — would sync via Supabase.':'Add a note first.';
+  if(t)document.getElementById('lognote').value='';
+};
+
+buildNotes();render();
+</script>
+</body>
+</html>

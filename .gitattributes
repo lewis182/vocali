@@ -1,0 +1,5 @@
+# Keep line endings sane between Windows and the build
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.woff2 binary
