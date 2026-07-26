@@ -7,7 +7,7 @@ import Section from './components/Section.jsx'
 import Plan from './components/Plan.jsx'
 import Glossary from './components/Glossary.jsx'
 import Runner from './components/Runner.jsx'
-import Tools from './components/Tools.jsx'
+import PracticeBar from './components/PracticeBar.jsx'
 
 const Logo = () => (
   <div className="mark">
@@ -23,7 +23,7 @@ export default function App () {
   const [view, setView] = useState({ name: 'home' })
   const [session, setSession] = useState(null)
   const [droneNote, setDroneNote] = useState('C3')
-  const [railOpen, setRailOpen] = useState(false)
+  const [bpm, setBpm] = useState(72)
 
   useEffect(() => { loadState().then(setState) }, [])
 
@@ -48,7 +48,7 @@ export default function App () {
   /* ---------- session runner takes over the whole main column ---------- */
   if (session) {
     return (
-      <Shell droneNote={droneNote} setDroneNote={setDroneNote} onLog={log} view={view} go={go} openArea={openArea} railOpen={railOpen} setRailOpen={setRailOpen}>
+      <Shell droneNote={droneNote} setDroneNote={setDroneNote} bpm={bpm} setBpm={setBpm} onLog={log} view={view} go={go} openArea={openArea}>
         <Runner
           session={session}
           onExit={() => setSession(null)}
@@ -59,7 +59,7 @@ export default function App () {
   }
 
   return (
-    <Shell droneNote={droneNote} setDroneNote={setDroneNote} onLog={log} view={view} go={go} openArea={openArea} railOpen={railOpen} setRailOpen={setRailOpen}>
+    <Shell droneNote={droneNote} setDroneNote={setDroneNote} bpm={bpm} setBpm={setBpm} onLog={log} view={view} go={go} openArea={openArea}>
       {view.name === 'home' && (
         <Home
           state={state}
@@ -102,7 +102,7 @@ export default function App () {
   )
 }
 
-function Shell ({ children, droneNote, setDroneNote, onLog, view, go, openArea, railOpen, setRailOpen }) {
+function Shell ({ children, droneNote, setDroneNote, bpm, setBpm, onLog, view, go, openArea }) {
   return (
     <div className="app">
       <header className="topbar">
@@ -135,16 +135,14 @@ function Shell ({ children, droneNote, setDroneNote, onLog, view, go, openArea, 
         </button>
       </nav>
 
-      <main>{children}</main>
-
-      <aside className={`rail${railOpen ? ' drawer' : ''}`}>
-        <Tools droneNote={droneNote} setDroneNote={setDroneNote} onLog={onLog} />
-        {railOpen && (
-          <button className="btn ghost" style={{ width: '100%' }} onClick={() => setRailOpen(false)}>Close tools</button>
-        )}
-      </aside>
-
-      <button className="toolsbtn" onClick={() => setRailOpen(o => !o)}>♪ Tools</button>
+      <main>
+        <PracticeBar
+          droneNote={droneNote} setDroneNote={setDroneNote}
+          bpm={bpm} setBpm={setBpm}
+          onLog={onLog}
+        />
+        {children}
+      </main>
     </div>
   )
 }

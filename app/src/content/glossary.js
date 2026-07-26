@@ -17,5 +17,20 @@ export const glossary = {
   'glottis': 'The opening between the two vocal folds.',
   'vibrato': 'A small, regular fluctuation of pitch that gives a sung note warmth and life.',
   'medial compression': 'How firmly the vocal folds press together along their length; too little is breathy, too much is pressed.',
-  'appoggio': 'A balanced breath-support coordination that keeps the ribs expanded and the airflow steady.'
+  'appoggio': 'A balanced breath-support coordination that keeps the ribs expanded and the airflow steady.',
+  'diaphragm': 'The dome of muscle below the lungs. It contracts downward to draw air in — it is an inhaling muscle and cannot push air out.',
+  'subglottic pressure': 'Air pressure below the vocal folds. Steady pressure gives steady tone; surges and collapses are heard as wobble and drift.',
+  'soft palate': 'The flexible tissue at the back of the roof of the mouth. Raised it seals off the nose; lowered it lets sound resonate there (nasality).',
+  'velum': 'Another name for the soft palate.',
+  'singer\'s formant': 'A concentration of energy around 2.8–3.2 kHz that makes a voice carry, because human hearing is most sensitive in that band.',
+  'vocal tract': 'The tube above the vocal folds — pharynx, mouth and nose — whose shape filters the raw buzz into a recognisable voice.',
+  'pharynx': 'The throat space directly above the larynx; a major contributor to tone colour.',
+  'glottal onset': 'A note begun by closing the folds first and letting pressure blow them apart — heard as a small click.',
+  'aspirate onset': 'A note begun with air flowing before the folds close — heard as a breathy "h" before the tone.',
+  'balanced onset': 'A note where airflow and fold closure begin together — clean, efficient and the healthiest default.',
+  'vowel modification': 'Slightly migrating a vowel towards a neighbouring one as pitch rises, so it keeps acoustic support instead of straining.',
+  'melisma': 'Several notes sung on a single syllable — the technical basis of riffs and runs.',
+  'pentatonic': 'A five-note scale; with the flattened fifth added it becomes the blues scale, the home of most jazz and blues ornament.',
+  'flow phonation': 'The efficient balance of airflow and closure that produces the most sound for the least effort.',
+  'stroboscopy': 'A clinical technique using flashing light to make vocal fold vibration appear slowed, so it can be observed.'
 }

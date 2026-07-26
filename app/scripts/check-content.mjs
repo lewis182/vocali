@@ -53,13 +53,21 @@ for (const area of areas) {
       exerciseCount++
       if (!e.id) errors.push(`${where}: an exercise is missing an id.`)
       if (!e.steps?.length) errors.push(`${where} / ${e.name}: no steps.`)
-      if (!e.ref) errors.push(`${where} / ${e.name}: no reference pitch.`)
+      // Knowledge sections use a checklist rather than a vocal drill, so a
+      // reference pitch does not apply to them (handover §3).
+      if (!e.ref && e.kind !== 'checklist') errors.push(`${where} / ${e.name}: no reference pitch (or mark it kind:'checklist').`)
       if (!e.durationMins) errors.push(`${where} / ${e.name}: no duration.`)
       if (!e.difficulty) errors.push(`${where} / ${e.name}: no difficulty.`)
     }
 
-    if (!s.video?.youtubeId) errors.push(`${where}: no video.`)
-    if (s.video && !s.video.lastChecked) warnings.push(`${where}: video has no lastChecked date.`)
+    const videos = s.videos || (s.video ? [s.video] : [])
+    if (!videos.length) errors.push(`${where}: no video.`)
+    for (const v of videos) {
+      if (!v.youtubeId) errors.push(`${where}: a video has no youtubeId.`)
+      if (!v.lastChecked) warnings.push(`${where}: video "${v.title}" has no lastChecked date.`)
+      if (v.note) warnings.push(`${where}: video "${v.title}" is flagged — ${v.note}`)
+    }
+    if (videos.length < 2) warnings.push(`${where}: only one video. Aim for a coach demo plus a mechanism/second-opinion clip.`)
 
     if (s.diagram) {
       if (!s.diagram.svg) errors.push(`${where}: diagram present but has no svg.`)

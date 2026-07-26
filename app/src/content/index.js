@@ -10,18 +10,23 @@
    check[] → exercises[] → troubleshoot[] → myths[] → video
 */
 
+import { foundations } from './areas/foundations.js'
+import { breath } from './areas/breath.js'
+import { onset } from './areas/onset.js'
 import { registration } from './areas/registration.js'
+import { resonance } from './areas/resonance.js'
+import { range } from './areas/range.js'
 
 /** Areas not yet written to full depth appear as stubs (no `sections`). */
 const stub = (id, n, title, group, order, core = false) => ({ id, n, title, group, order, core, stub: true })
 
 export const areas = [
-  stub('foundations', '01', 'Foundations & Vocal Health', 'Foundation', 1),
-  stub('breath', '02', 'Breath & Support', 'Foundation', 2),
-  stub('onset', '03', 'Onset & Phonation', 'Foundation', 3),
+  foundations,
+  breath,
+  onset,
   registration,
-  stub('resonance', '05', 'Resonance & Tone', 'Technical core', 5, true),
-  stub('range', '06', 'Range & Flexibility', 'Technical core', 6, true),
+  resonance,
+  range,
   stub('pitch', '07', 'Pitch & Ear', 'Control', 7),
   stub('diction', '08', 'Articulation & Diction', 'Control', 8),
   stub('dynamics', '09', 'Dynamics & Expression', 'Control', 9),

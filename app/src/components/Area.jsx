@@ -1,5 +1,6 @@
 import Rich from './Glossify.jsx'
 import Diagram from './Diagram.jsx'
+import Videos from './Videos.jsx'
 
 export default function Area ({ area, onOpenSection, onRunArea, onOpenArea }) {
   if (area.stub) {
@@ -26,6 +27,8 @@ export default function Area ({ area, onOpenSection, onRunArea, onOpenArea }) {
       <Rich tag="p" className="lede" html={area.lede} />
       <Diagram diagram={area.diagram} />
       <div className="block"><Rich tag="p" html={area.intro} /></div>
+
+      <Videos videos={area.videos} label="See the mechanism — watch before the sections" />
 
       <hr className="rule" />
       <div className="overline">The {area.sections.length} sections</div>

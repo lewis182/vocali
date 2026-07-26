@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Rich from './Glossify.jsx'
 import Diagram from './Diagram.jsx'
+import Videos from './Videos.jsx'
 import { playPattern } from '../lib/audio.js'
 
 /* The reusable section card — the destination of every drill-down.
@@ -18,39 +19,22 @@ function ListBlock ({ label, items, fault }) {
   )
 }
 
-function Video ({ video }) {
-  const [broken, setBroken] = useState(!video.available)
-  const url = video.url || `https://www.youtube.com/watch?v=${video.youtubeId}`
+/* Secondary depth stays available but collapsed, so the page reads without a
+   wall of text. Open it when you are diagnosing a problem. */
+function Collapsible ({ label, items, fault, count }) {
+  const [open, setOpen] = useState(false)
+  if (!items?.length) return null
   return (
-    <div className="block">
-      <span className="overline">Watch — plays in the card</span>
-      <div className="video">
-        <div className="vframe">
-          {broken
-            ? (
-              <div className="vfallback">
-                <strong>Video unavailable</strong>
-                <span className="tinynote">This clip has been removed or embedding is disabled. Use the link below.</span>
-              </div>
-              )
-            : (
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
-                title={video.title}
-                allow="accelerometer; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-              )}
-        </div>
-        <div className="vmeta">
-          <span>{video.title}</span>
-          <span>
-            <a href={url} target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
-            {' · '}
-            <button className="toggle" onClick={() => setBroken(b => !b)}>toggle fallback</button>
-          </span>
-        </div>
-      </div>
+    <div className="block collapsible">
+      <button className={`chead${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)}>
+        <span className="overline">{label}</span>
+        <span className="cmeta">{count ?? items.length} · {open ? 'hide' : 'show'} <span className="caret">{open ? '▴' : '▾'}</span></span>
+      </button>
+      {open && (
+        <ul className={`cues${fault ? ' fault' : ''}`}>
+          {items.map((x, i) => <Rich key={i} tag="li" html={x} />)}
+        </ul>
+      )}
     </div>
   )
 }
@@ -86,6 +70,7 @@ export default function Section ({ area, section, onBack, onSetDrone, onLog }) {
       <div className="block">
         <span className="overline">Technique · how it works</span>
         {s.how.map((p, i) => <Rich key={i} tag="p" html={p} />)}
+        <Diagram diagram={s.mechanismDiagram} />
         <div className="callout">
           <span className="overline">What to feel</span>
           <Rich html={s.feel} />
@@ -130,10 +115,10 @@ export default function Section ({ area, section, onBack, onSetDrone, onLog }) {
         ))}
       </div>
 
-      <ListBlock label="Troubleshooting" items={s.troubleshoot} fault />
-      <ListBlock label="Common misconceptions" items={s.myths} />
+      <Collapsible label="Troubleshooting" items={s.troubleshoot} fault />
+      <Collapsible label="Common misconceptions" items={s.myths} />
 
-      <Video video={s.video} />
+      <Videos videos={s.videos || (s.video ? [s.video] : [])} />
 
       {s.logEnabled && (
         <button

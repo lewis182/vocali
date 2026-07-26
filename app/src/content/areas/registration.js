@@ -16,6 +16,33 @@ export const registration = {
   lede: 'The blend of chest and head function that lets you sing across your full range without a break. This is the technical heart of the instrument — get it working and power, ease and range all follow.',
   intro: 'Registration is about how the vocal folds change shape as you move through your range, and how you manage the transition. Low down, the folds are short and thick and vibrate along their full mass — that is <em>chest voice</em>, strong and speech-like. High up they stretch long and thin — <em>head voice</em>, lighter and cooler. Between them sits the <strong>passaggio</strong>, the zone where coordination has to shift and where most cracks, flips and strain happen. The <strong>mix</strong> is the learned coordination that blends the two so the change is inaudible. Work these five sections in order: understand chest and head as endpoints, learn to negotiate the passaggio, build the mix, then smooth the whole range into one connected instrument.',
 
+  /* Area-level orientation: watch this before the sections to see the mechanism
+     as a whole, rather than one skill at a time. */
+  videos: [
+    {
+      id: 'vid-area-mechanism',
+      role: 'mechanism',
+      coach: 'Voice science',
+      title: 'Singing in the MRI with Tyley Ross — Making the Voice Visible',
+      youtubeId: 'J3TwTb-T044',
+      displayMode: 'embed',
+      available: true,
+      lastChecked: '2026-07-25',
+      topic: 'Orientation for the whole area: what physically happens as the voice changes across the range.'
+    },
+    {
+      id: 'vid-area-strobo',
+      role: 'mechanism',
+      coach: 'Stroboscopy / voice science',
+      title: 'Video Stroboscopy of the Vocal Cords',
+      youtubeId: 'mJedwz_r2Pc',
+      displayMode: 'embed',
+      available: true,
+      lastChecked: '2026-07-25',
+      topic: 'A clear look at the folds themselves — the structures every section below refers to.'
+    }
+  ],
+
   diagram: {
     id: 'dia-reg-area',
     title: 'Fold length and thickness across the range',
@@ -51,6 +78,25 @@ export const registration = {
         'Because so much mass is in vibration, chest voice naturally resists being carried high: as pitch rises the folds must thin, and if the TA refuses to yield the sound strains or flips. Chest is therefore powerful but has a sensible ceiling — respect it and build the mix (4.4) above it rather than dragging chest upward.',
         'Practically, chest voice is your speaking voice put onto sung pitch. If your speech is healthy and resonant, chest already has the ingredients; the work is keeping it easy and connected rather than pushed.'
       ],
+      mechanismDiagram: {
+        id: 'dia-4-1b',
+        title: 'The chest ceiling — effort against pitch',
+        type: 'process',
+        verified: false,
+        caption: 'Kept easy, chest costs little effort until it approaches the first passaggio, where effort climbs steeply. Forcing past that point (dashed) is where strain and cracking begin — the signal to blend into mix (4.4), not to push. Informational diagram — to be source-verified before ship.',
+        svg: `<svg viewBox="0 0 720 220" role="img" aria-label="Effort rising steeply as chest voice is pushed past the first passaggio" font-family="Inter,sans-serif">
+          <line x1="70" y1="180" x2="670" y2="180" stroke="#D6CDB8" stroke-width="1"/>
+          <line x1="70" y1="30" x2="70" y2="180" stroke="#D6CDB8" stroke-width="1"/>
+          <text x="62" y="38" font-size="11" fill="#8B8272" text-anchor="end">effort</text>
+          <text x="660" y="200" font-size="11" fill="#8B8272" text-anchor="end">pitch →</text>
+          <path d="M70 165 C 200 160, 330 150, 430 132" fill="none" stroke="#1C6B85" stroke-width="3"/>
+          <path d="M430 132 C 500 118, 540 80, 560 40" fill="none" stroke="#C05A24" stroke-width="3" stroke-dasharray="7 5"/>
+          <line x1="430" y1="26" x2="430" y2="180" stroke="#C05A24" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <text x="438" y="24" font-size="11" font-weight="700" fill="#C05A24">first passaggio ~B3–C4</text>
+          <text x="150" y="150" font-size="11" fill="#1C6B85">easy, spoken chest</text>
+          <text x="470" y="70" font-size="11" fill="#C05A24">pushing = strain</text>
+        </svg>`
+      },
       feel: 'A spoken quality with clear sympathetic buzz in the sternum and upper chest. It should feel like an easy, resonant speaking voice on pitch — present but effortless, never a shout.',
       cues: [
         'Speak the vowel on pitch first, then sustain it — keep the spoken feel',
@@ -135,15 +181,29 @@ export const registration = {
           ]
         }
       ],
-      video: {
-        id: 'vid-nyvc-13',
-        coach: 'New York Vocal Coaching',
-        title: 'NYVC Ep. 13 — Healthy Belting',
-        youtubeId: '21P-ci_Ie9Q',
-        displayMode: 'embed',
-        available: true,
-        lastChecked: '2026-07-25'
-      }
+      videos: [
+        {
+          id: 'vid-nyvc-13',
+          role: 'technique',
+          coach: 'New York Vocal Coaching',
+          title: 'NYVC Ep. 13 — Healthy Belting',
+          youtubeId: '21P-ci_Ie9Q',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25'
+        },
+        {
+          id: 'vid-strobo-folds-action',
+          role: 'mechanism',
+          coach: 'Stroboscopy / voice science',
+          title: 'Vocal Folds in Action! Larynx Stroboscope Demo [Singing/Speaking]',
+          youtubeId: 'vffHy6r7FlA',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25',
+          topic: 'What the folds actually do while speaking and singing — the thick, full-depth vibration described above, seen directly.'
+        }
+      ]
     },
 
     /* ---------------------------------------------------------------- 4.2 */
@@ -160,6 +220,26 @@ export const registration = {
         'The catch is closure. Thin folds can vibrate with a gap left between them — that is breathy falsetto, pretty but weak. A trained head voice keeps light but complete closure, so the tone stays clear and carries. The difference between falsetto and connected head voice is almost entirely how firmly the folds meet.',
         'Head voice is not the same as "the top of your belt". It is a distinct coordination you can also use low down (a light "hoot") — learning it in isolation first makes it far easier to blend into the mix later.'
       ],
+      mechanismDiagram: {
+        id: 'dia-4-2b',
+        title: 'Falsetto versus connected head voice',
+        type: 'mechanism',
+        verified: false,
+        caption: 'Viewed from above: in falsetto the folds do not fully meet, so air escapes through the gap and the tone is breathy and weak. In connected head voice the folds are equally long and thin but close completely — same lightness, far more clarity and carrying power. This single difference is what turns falsetto into usable head voice. Informational diagram — to be source-verified before ship.',
+        svg: `<svg viewBox="0 0 720 210" role="img" aria-label="Top view of vocal folds: falsetto with a gap versus connected head voice fully closed" font-family="Inter,sans-serif">
+          <text x="180" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#C05A24">Falsetto — gap remains</text>
+          <path d="M120 50 C 165 95, 165 115, 120 160" fill="none" stroke="#8FBAC8" stroke-width="7" stroke-linecap="round"/>
+          <path d="M240 50 C 195 95, 195 115, 240 160" fill="none" stroke="#8FBAC8" stroke-width="7" stroke-linecap="round"/>
+          <ellipse cx="180" cy="105" rx="9" ry="30" fill="#C05A24" fill-opacity="0.3"/>
+          <text x="180" y="188" text-anchor="middle" font-size="11" fill="#8B8272">air escapes · breathy, weak</text>
+
+          <text x="540" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#1C6B85">Connected head — closed</text>
+          <path d="M480 50 C 532 95, 532 115, 480 160" fill="none" stroke="#8FBAC8" stroke-width="7" stroke-linecap="round"/>
+          <path d="M600 50 C 548 95, 548 115, 600 160" fill="none" stroke="#8FBAC8" stroke-width="7" stroke-linecap="round"/>
+          <line x1="540" y1="78" x2="540" y2="132" stroke="#1C6B85" stroke-width="3"/>
+          <text x="540" y="188" text-anchor="middle" font-size="11" fill="#8B8272">folds meet · clear, carries</text>
+        </svg>`
+      },
       feel: 'Resonance lifts behind the soft palate and up into the head. A gentle hooting or "oo" sensation; the note feels like it is already up there and you drop into it rather than reaching up for it.',
       cues: [
         'Call a soft "yoo-hoo" from above and let the voice release upward',
@@ -243,15 +323,29 @@ export const registration = {
           ]
         }
       ],
-      video: {
-        id: 'vid-nyvc-113',
-        coach: 'New York Vocal Coaching',
-        title: 'NYVC Ep. 113 — Expand Your Vocal Range',
-        youtubeId: 'UFVE9c0BJ64',
-        displayMode: 'embed',
-        available: true,
-        lastChecked: '2026-07-25'
-      }
+      videos: [
+        {
+          id: 'vid-nyvc-113',
+          role: 'technique',
+          coach: 'New York Vocal Coaching',
+          title: 'NYVC Ep. 113 — Expand Your Vocal Range',
+          youtubeId: 'UFVE9c0BJ64',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25'
+        },
+        {
+          id: 'vid-strobo-high-low',
+          role: 'mechanism',
+          coach: 'Stroboscopy / voice science',
+          title: 'Stroboscopy: Vocal cords at high and low pitch',
+          youtubeId: 'UpOXecWC5Dw',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25',
+          topic: 'The folds stretching thin for high pitch versus short and thick for low — the CT/TA change described above, shown side by side.'
+        }
+      ]
     },
 
     /* ---------------------------------------------------------------- 4.3 */
@@ -358,15 +452,29 @@ export const registration = {
           ]
         }
       ],
-      video: {
-        id: 'vid-nyvc-101',
-        coach: 'New York Vocal Coaching',
-        title: 'NYVC Ep. 101 — The Greatest Vocal Exercise of All Time',
-        youtubeId: 'h0SIEY_zNqU',
-        displayMode: 'embed',
-        available: true,
-        lastChecked: '2026-07-25'
-      }
+      videos: [
+        {
+          id: 'vid-nyvc-101',
+          role: 'technique',
+          coach: 'New York Vocal Coaching',
+          title: 'NYVC Ep. 101 — The Greatest Vocal Exercise of All Time',
+          youtubeId: 'h0SIEY_zNqU',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25'
+        },
+        {
+          id: 'vid-liepe-break',
+          role: 'second opinion',
+          coach: 'Chris Liepe',
+          title: 'Fix Your Vocal Break | Navigate Passaggio | Head Voice To Chest Voice Exercises',
+          youtubeId: 'ZDoQ8OdtWxE',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25',
+          topic: 'A different route through the same problem — useful when one teacher\'s cue does not land.'
+        }
+      ]
     },
 
     /* ------------------------------------------------- 4.4 (the standard) */
@@ -383,6 +491,33 @@ export const registration = {
         'In a mix the two are held in <em>antagonistic balance</em>: the CT provides stretch so the pitch sits comfortably, while the TA keeps enough medial compression that the folds still close firmly — a longer closed phase of each vibration — so the tone stays connected and loud rather than breathy.',
         'Crucially, much of the perceived power in a good mix is <em>resonance, not muscular push</em>. A near-neutral larynx and a slightly narrowed vowel let your vocal-tract resonances reinforce the upper harmonics — the "ring" around 2.8–3.2 kHz (the singer\'s-formant / twang region). That ring is what makes a mixed note cut and feel powerful while the folds themselves work only moderately. If you take one idea from this page: up high, reach for brighter resonance before you reach for more effort.'
       ],
+      mechanismDiagram: {
+        id: 'dia-4-4b',
+        title: 'Where the power comes from',
+        type: 'process',
+        verified: false,
+        caption: 'The same perceived loudness can be reached two ways. Pushing harder (left) raises effort and risk with little gain above the break. Tuning resonance — twang, a tall narrow vowel, a settled larynx (right) — reinforces the upper harmonics so the note carries while the folds work only moderately. Up high, reach for brightness before effort. Informational diagram — to be source-verified before ship.',
+        svg: `<svg viewBox="0 0 720 210" role="img" aria-label="Comparison of gaining power by muscular push versus by resonance" font-family="Inter,sans-serif">
+          <text x="180" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#C05A24">Push harder</text>
+          <rect x="120" y="52" width="120" height="26" rx="4" fill="#C05A24" fill-opacity="0.75"/>
+          <text x="250" y="70" font-size="11" fill="#8B8272">effort</text>
+          <rect x="120" y="90" width="120" height="26" rx="4" fill="#C05A24" fill-opacity="0.45"/>
+          <text x="250" y="108" font-size="11" fill="#8B8272">strain risk</text>
+          <rect x="120" y="128" width="52" height="26" rx="4" fill="#C05A24" fill-opacity="0.25"/>
+          <text x="250" y="146" font-size="11" fill="#8B8272">gain above break</text>
+
+          <line x1="360" y1="40" x2="360" y2="170" stroke="#D6CDB8" stroke-width="1"/>
+
+          <text x="540" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#1C6B85">Tune resonance</text>
+          <rect x="480" y="52" width="48" height="26" rx="4" fill="#1C6B85" fill-opacity="0.75"/>
+          <text x="612" y="70" font-size="11" fill="#8B8272">effort</text>
+          <rect x="480" y="90" width="36" height="26" rx="4" fill="#1C6B85" fill-opacity="0.45"/>
+          <text x="612" y="108" font-size="11" fill="#8B8272">strain risk</text>
+          <rect x="480" y="128" width="120" height="26" rx="4" fill="#1C6B85" fill-opacity="0.6"/>
+          <text x="612" y="146" font-size="11" fill="#8B8272">gain above break</text>
+          <text x="360" y="196" text-anchor="middle" font-size="11" fill="#8B8272">bar length = relative amount</text>
+        </svg>`
+      },
       feel: 'A tall, narrow, forward resonance that stays connected through the break — neither heavy and shouty nor light and breathy. The note should feel noticeably lighter than it sounds.',
       cues: [
         'Keep a tall, narrow mouth and a bright, forward "buzz"',
@@ -488,15 +623,29 @@ export const registration = {
           ]
         }
       ],
-      video: {
-        id: 'vid-nyvc-40',
-        coach: 'New York Vocal Coaching',
-        title: 'NYVC Ep. 40 — The Mix Voice',
-        youtubeId: 'CYEsGuldIQY',
-        displayMode: 'embed',
-        available: true,
-        lastChecked: '2026-07-25'
-      }
+      videos: [
+        {
+          id: 'vid-nyvc-40',
+          role: 'technique',
+          coach: 'New York Vocal Coaching',
+          title: 'NYVC Ep. 40 — The Mix Voice',
+          youtubeId: 'CYEsGuldIQY',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25'
+        },
+        {
+          id: 'vid-liepe-mix',
+          role: 'second opinion',
+          coach: 'Chris Liepe',
+          title: 'Easily Find Your MIXED VOICE With THIS Tip (Any Voice Type)',
+          youtubeId: '6lz8oo6WMZQ',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25',
+          topic: 'A second coach on the same coordination — worth comparing with the NYVC approach.'
+        }
+      ]
     },
 
     /* ---------------------------------------------------------------- 4.5 */
@@ -594,15 +743,29 @@ export const registration = {
           ]
         }
       ],
-      video: {
-        id: 'vid-nyvc-115',
-        coach: 'New York Vocal Coaching',
-        title: 'NYVC Ep. 115 — Find Your Mix Voice (Part 2)',
-        youtubeId: 'RVYvo44kMms',
-        displayMode: 'embed',
-        available: true,
-        lastChecked: '2026-07-25'
-      }
+      videos: [
+        {
+          id: 'vid-nyvc-115',
+          role: 'technique',
+          coach: 'New York Vocal Coaching',
+          title: 'NYVC Ep. 115 — Find Your Mix Voice (Part 2)',
+          youtubeId: 'RVYvo44kMms',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25'
+        },
+        {
+          id: 'vid-fold-vibration',
+          role: 'mechanism',
+          coach: 'Voice science',
+          title: 'Vibration of the Vocal Folds',
+          youtubeId: 'kfkFTw3sBXQ',
+          displayMode: 'embed',
+          available: true,
+          lastChecked: '2026-07-25',
+          topic: 'The vibratory cycle itself — helpful for understanding why sudden changes in weight or air are heard as a break.'
+        }
+      ]
     }
   ]
 }

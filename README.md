@@ -24,7 +24,13 @@ A personal, single-user vocal-training app that puts learning, practice and prog
 
 `mockups/prototype.html` remains as the standalone design reference (no build step). The app supersedes it.
 
-**Next:** (1) delete the partial `.git` folder and push to GitHub — the project is not backed up yet; (2) run `npm install && npm run dev` to see it; (3) write the remaining ten areas into `app/src/content/areas/`; (4) source-verify the five Registration diagrams.
+**Backed up:** the project is on GitHub at `https://github.com/lewis182/vocali` (branch `main`). Save future work with `git add .` → `git commit -m "…"` → `git push` from `E:\Vocal App`.
+
+**Content progress:** Areas **1–6 are complete** — Foundations & Vocal Health, Breath & Support, Onset & Phonation, Registration, Resonance & Tone, and Range & Flexibility. That is **27 sections, 67 exercises, 40+ diagrams and a 31-term glossary**, every section carrying a technique video plus a mechanism or second-opinion clip. This covers the whole of the twelve-week plan's weeks 1–8, including the entire technical core.
+
+**Paused here deliberately for user testing** — lessons from practising with areas 1–6 will be folded into the remaining areas (7 Pitch & Ear, 8 Articulation & Diction, 9 Dynamics & Expression, 10 Stylisation, 11 Application & Practice) before they are written.
+
+**Next:** (1) run `cd app`, `npm install`, `npm run dev` to see the app; (2) write the remaining ten areas into `app/src/content/areas/`; (3) source-verify the five Registration diagrams; (4) when ready to put it on the iPad, publish via GitHub Pages (needs the repo to be **public** on the free plan) or Cloudflare Pages (works from a private repo) — see `DEPLOY.md`.
 
 **Workflow decision:** all build work happens **here (Cowork/Code), not the Design surface** — the Design surface produced hollow frames and added cross-surface confusion. `mockups/design-prompts.md` is retained only as optional reference; it is no longer the active route.
 
@@ -40,6 +46,8 @@ A personal, single-user vocal-training app that puts learning, practice and prog
 - **Name & brand:** app name is **Vocali**. Logo is a **male head in profile with the mouth open** (singing). The "Vocal training" wordmark sits on a **teal** background (not orange) for legibility.
 - **Voice type:** owner is **tenor/baritone** — reference pitches and passaggio locations in the content are set for this (secondo passaggio ~E4–F4).
 - **Visual direction:** **cool and unfussy** — a calm editorial "workshop-ledger" look. Warm cream ground, deep teal for the current-focus/feature element, burnt orange reserved for the single primary action per screen; bold Modernist serif display over a clean sans; numbered steps, thin rules, data as labelled figures. Full tokens & type notes in the design brief's *Visual direction* section.
+- **Layout:** the permanent tools rail was removed — pitch, tempo and log now sit in a **compact practice bar** at the top of the content, expanding on tap. This widened the reading column and cut scrolling. Secondary blocks (troubleshooting, misconceptions) are **collapsed by default**: full depth retained, less wall of text.
+- **Videos:** sections carry **multiple videos with roles** — `technique` (coach demo), `mechanism` (what physically happens: MRI/endoscopy/animation), `second opinion` (another coach). Aim for at least a technique clip plus a mechanism clip per section; the content checker warns when only one is present.
 - **Content standard:** every section is written to a fixed depth — Explain → Mechanism → What to feel → Cues → Faults → Fix → How to produce it (steps) → Diagram → Check you've got it → Exercises (with what to listen for) → Troubleshooting → Misconceptions → Watch. The written text must teach the technique so the app stands alone; videos reinforce, not replace. Every technical claim and diagram is source-verified before ship (`VisualAsset.verified`). See `mockups/prototype.html` §4.4 for the reference standard.
 - **Data & sync:** practice log, streaks and progress **sync across devices via Supabase** (free tier; no server to maintain). Access uses a **one-time passphrase pairing per device** — login-free after first launch, and keeps the data genuinely private (a static site can't hide a sync key, so security comes from the pairing, not the client).
 - **Warm-up default:** **male** (Dr Dan 10-minute male warm-up).

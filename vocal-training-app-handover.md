@@ -272,11 +272,12 @@ Section       { id, num, title, level ("Foundational"|"Core"|"Refinement"),
                 fix,                   // if it goes wrong
                 produce[],             // HOW TO PRODUCE IT: ordered steps
                 check[],               // how to know you have got it
-                troubleshoot[],        // symptom -> cause -> correction
-                myths[],               // common misconceptions
-                diagram?,              // VisualAsset (see below)
+                troubleshoot[],        // symptom -> cause -> correction  (collapsed in UI)
+                myths[],               // common misconceptions           (collapsed in UI)
+                mechanismDiagram?,     // VisualAsset shown inside the mechanism block
+                diagram?,              // VisualAsset shown before the exercises
                 exercises[],           // Exercise objects
-                video,                 // VideoLink
+                videos[],              // VideoLink[] — see roles below
                 logEnabled }
 
 Exercise      { id, name, steps[], durationMins, difficulty,
@@ -291,8 +292,13 @@ VisualAsset   { id, areaId?, sectionId?, title, type
                 svg,                   // inline SVG, themed with design tokens
                 caption, sourceNotes, verified (bool) }
 
-VideoLink     { id, coach, title, youtubeId, url, topic,
-                displayMode ("embed"|"link"), lastChecked, available (bool) }
+VideoLink     { id, role, coach, title, youtubeId, url, topic,
+                displayMode ("embed"|"link"), lastChecked, available (bool), note? }
+              // role: "technique"       — a coach demonstrating the skill
+              //       "mechanism"       — what physically happens (MRI, endoscopy,
+              //                           animation, voice science)
+              //       "second opinion"  — another coach's take on the same thing
+              // `note` renders as a visible flag (e.g. "title unconfirmed").
 
 Session       { id, type ("warmup"|"area"|"custom"), title, areaId?,
                 durationMins, steps[] }   // steps reference Exercise objects
@@ -360,6 +366,28 @@ Every section is written in this fixed order: **Explain → Mechanism (`how`) �
 - 10-Minute Singing Warm-up (alt): https://www.youtube.com/watch?v=EnP-yHiTI9Q
 - "Warm Up the Singing Voice": https://www.youtube.com/watch?v=Bontr0IqN0w
 - "Turbocharge Your Vocal Practice": https://www.youtube.com/watch?v=aI_r-yUvMd8
+
+**Chris Liepe — additional coach (added July 2026)**
+- Channel: https://www.youtube.com/chrisliepe
+- Site: https://chrisliepe.com/
+- Strong on mixed voice, belting and distortion; rock/metal leaning but the registration
+  material applies broadly. Use as a **"second opinion"** video alongside NYVC so a
+  section shows two coaches teaching the same skill differently.
+
+**Verified additions (checked 25 July 2026)**
+- Chris Liepe — "Easily Find Your MIXED VOICE With THIS Tip": https://www.youtube.com/watch?v=6lz8oo6WMZQ → §4.4
+- Chris Liepe — "Fix Your Vocal Break | Navigate Passaggio": https://www.youtube.com/watch?v=ZDoQ8OdtWxE → §4.3
+- "Vocal Folds in Action! Larynx Stroboscope Demo": https://www.youtube.com/watch?v=vffHy6r7FlA → §4.1
+- "Stroboscopy: Vocal cords at high and low pitch": https://www.youtube.com/watch?v=UpOXecWC5Dw → §4.2
+- "Vibration of the Vocal Folds": https://www.youtube.com/watch?v=kfkFTw3sBXQ → §4.5
+- "Video Stroboscopy of the Vocal Cords": https://www.youtube.com/watch?v=mJedwz_r2Pc → Area 4 orientation
+
+**Mechanism / voice-science videos (role: `mechanism`)**
+Sections should, where possible, carry a clip showing *what physically happens* — MRI
+studies, endoscopy, or clear animations — not just a coach demonstrating. These break up
+the written text and make the anatomy concrete. Candidate sources: real-time MRI singing
+studies (e.g. the "Singing in the MRI" films), university voice-science channels, and
+laryngoscopy footage. **Verify the exact clip and title before adding.**
 
 **Stylisation (light)**
 - Nicola Milan / Singer's Secret archive (jazz & blues): https://www.youtube.com/c/Singerssecret
