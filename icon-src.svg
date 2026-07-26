@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Full-bleed background: iOS renders any transparency as black, so the
+       square must be filled edge to edge. iOS applies its own rounded mask. -->
+  <rect width="512" height="512" fill="#1E1B17"/>
+  <g fill="none" stroke="#F1EBDB" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+    <!-- profile of a head, mouth open (singing) -->
+    <path d="M126 278 C126 152 202 74 290 74 C366 74 414 124 414 186 L452 200 C466 205 466 223 452 228 L414 242 C407 267 392 283 362 291"/>
+    <path d="M362 344 C349 377 318 396 274 396 L212 396 L212 458"/>
+  </g>
+</svg>
