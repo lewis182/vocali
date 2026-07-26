@@ -30,18 +30,22 @@ export default function App () {
   const update = next => { setState(next); saveState(next) }
   const log = entry => update(addLogEntry(state, entry))
 
+  /* Any navigation also leaves a running session — otherwise the runner keeps
+     rendering and the nav appears dead. */
   function openArea (id) {
+    setSession(null)
     setView({ name: 'area', areaId: id })
     window.scrollTo(0, 0)
   }
   function openSection (areaId, sectionId) {
     const a = areaById(areaId)
     const s = sectionById(areaId, sectionId)
+    setSession(null)
     setView({ name: 'section', areaId, sectionId })
     update({ ...state, lastVisited: { areaId, sectionId, label: `${a.title} · ${s.num} ${s.title}` } })
     window.scrollTo(0, 0)
   }
-  function go (name) { setView({ name }); window.scrollTo(0, 0) }
+  function go (name) { setSession(null); setView({ name }); window.scrollTo(0, 0) }
 
   const current = view.areaId ? areaById(view.areaId) : null
 
@@ -106,8 +110,17 @@ function Shell ({ children, droneNote, setDroneNote, bpm, setBpm, onLog, view, g
   return (
     <div className="app">
       <header className="topbar">
-        <div className="brand"><Logo /><div className="name">Vocali</div></div>
-        <div className="tag">VOCAL TRAINING</div>
+        {/* The whole brand is a home button — the expected behaviour everywhere. */}
+        <button className="brand" onClick={() => go('home')} aria-label="Go to home">
+          <Logo />
+          <span className="name">Vocali</span>
+        </button>
+        <div className="topright">
+          {view.name !== 'home' && (
+            <button className="homebtn" onClick={() => go('home')}>‹ Home</button>
+          )}
+          <span className="tag">VOCAL TRAINING</span>
+        </div>
       </header>
 
       <nav className="nav">
