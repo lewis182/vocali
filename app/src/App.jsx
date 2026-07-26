@@ -29,6 +29,8 @@ export default function App () {
 
   const update = next => { setState(next); saveState(next) }
   const log = entry => update(addLogEntry(state, entry))
+  /* starting a session should always begin at the top of the page */
+  const startSession = s => { setSession(s); window.scrollTo(0, 0) }
 
   /* Any navigation also leaves a running session — otherwise the runner keeps
      rendering and the nav appears dead. */
@@ -69,7 +71,7 @@ export default function App () {
           state={state}
           onOpenArea={openArea}
           onOpenPlan={() => go('plan')}
-          onWarmup={m => setSession(warmups[m])}
+          onWarmup={m => startSession(warmups[m])}
           onResume={() => state.lastVisited && openSection(state.lastVisited.areaId, state.lastVisited.sectionId)}
         />
       )}
@@ -78,7 +80,7 @@ export default function App () {
         <Area
           area={current}
           onOpenSection={sid => openSection(current.id, sid)}
-          onRunArea={() => setSession(areaSession(current))}
+          onRunArea={() => startSession(areaSession(current))}
           onOpenArea={openArea}
         />
       )}

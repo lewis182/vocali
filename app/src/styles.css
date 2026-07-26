@@ -21,6 +21,11 @@
   --nav-w: 264px;
   --rail-w: 320px;
   --radius: 10px;
+
+  /* Header height. Everything else offsets from this single value, so the top
+     of the app is identical on every screen and every device. */
+  --topbar-h: 76px;
+  --topbar-total: calc(var(--topbar-h) + env(safe-area-inset-top, 0px));
 }
 
 * { box-sizing: border-box; }
@@ -35,8 +40,6 @@ body {
   -webkit-font-smoothing: antialiased;
   /* stop iOS resizing text when the iPad is rotated */
   -webkit-text-size-adjust: 100%;
-  /* iPad safe areas when installed to the home screen */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 a { color: var(--orange); text-decoration: none; }
@@ -61,12 +64,17 @@ button {
 }
 
 /* ---------- shell ---------- */
-.app { display: grid; grid-template-columns: var(--nav-w) minmax(0, 1fr); min-height: 100vh; }
+.app {
+  display: grid; grid-template-columns: var(--nav-w) minmax(0, 1fr);
+  min-height: 100vh;
+  /* room for the fixed header */
+  padding-top: var(--topbar-total);
+}
 
 /* ---------- compact practice bar ----------
    Replaces the old permanent tools rail: pitch and tempo are set once and
    rarely changed, so they sit as chips and expand only on demand. */
-.pbar-wrap { position: sticky; top: 76px; z-index: 30; background: var(--ground); }
+.pbar-wrap { position: sticky; top: var(--topbar-total); z-index: 30; background: var(--ground); }
 .pbar {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   padding: 10px 0 12px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
@@ -109,13 +117,15 @@ button {
 
 /* Fixed height and no wrapping, so the header is identical on every screen
    and on every device — it must never grow to two rows. */
+/* Fixed to the viewport, not sticky inside the grid: a sticky grid item only
+   sticks within its own row, so its position varied with page length. */
 .topbar {
-  grid-column: 1 / -1;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; flex-wrap: nowrap;
-  height: 76px; padding: 0 24px;
+  height: var(--topbar-total);
+  padding: env(safe-area-inset-top, 0px) 24px 0;
   border-bottom: 1px solid var(--line); background: var(--surface);
-  position: sticky; top: 0; z-index: 50;
 }
 .brand {
   display: flex; align-items: center; gap: 12px;
@@ -140,7 +150,11 @@ button {
 }
 
 /* ---------- left nav ---------- */
-.nav { border-right: 1px solid var(--line); padding: 22px 16px; background: var(--surface2); position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 76px); overflow: auto; }
+.nav {
+  border-right: 1px solid var(--line); padding: 22px 16px; background: var(--surface2);
+  position: sticky; top: var(--topbar-total); align-self: start;
+  max-height: calc(100vh - var(--topbar-total)); overflow: auto;
+}
 .nav h4 { margin: 22px 8px 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .nav .item { display: flex; gap: 10px; align-items: baseline; padding: 7px 10px; border-radius: 6px; color: var(--ink); font-size: 14.5px; cursor: pointer; border: 0; background: none; width: 100%; text-align: left; }
 .nav .item:hover { background: var(--surface); }
